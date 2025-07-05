@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Portfolio - Antonio Fernández Villegas</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:700,900|Roboto:400,700&display=swap">
+  <link rel="icon" type="image/x-icon" href="Fotos/afv.ico">
+</head>
+<body>
+  <header>
+    <h1 class="main-title">Portfolio de <span>Antonio Fernández Villegas</span></h1>
+    <nav>
+      <a href="index.html" class="active">Inicio</a>
+      <a href="sobre.html">Sobre mí</a>
+      <a href="proyectos.html">Proyectos</a>
+    </nav>
+  </header>
+  <main>
+    <section id="inicio">
+      <h2>¡Hola! 👋 Soy Antonio</h2>
+      <p>
+        <b>Técnico Informático</b> con título de <b>Grado Medio en Sistemas Microinformáticos y Redes (SMR, 2022-2024)</b>.<br>
+        Actualmente curso <b>ASIR</b> y ya he completado el primer año.<br>
+        Apasionado por la tecnología, la administración de sistemas y el aprendizaje continuo.
+      </p>
+      <div class="profile-blocks">
+        <div class="profile-block">
+          <h3>🛠️ Habilidades Técnicas</h3>
+          <ul>
+            <li><b>Sistemas Operativos:</b> Windows, Linux (Ubuntu, Debian)</li>
+            <li><b>Redes:</b> LAN, WAN, TCP/IP, DNS, DHCP, VPN</li>
+            <li><b>Seguridad:</b> Firewalls, gestión de permisos, antivirus</li>
+            <li><b>Virtualización:</b> VMware, VirtualBox</li>
+            <li><b>Bases de Datos:</b> MySQL, SQL Server</li>
+            <li><b>Administración:</b> Active Directory, servidores</li>
+            <li><b>Scripting:</b> Bash, Batch, PowerShell</li>
+          </ul>
+        </div>
+        <div class="profile-block">
+          <h3>📚 Actualmente aprendiendo</h3>
+          <ul>
+            <li>FP Grado Superior de Administración de Sistemas Informáticos en Red (ASIR)</li>
+            <li>Automatización con scripts</li>
+            <li>Mejora de seguridad y virtualización</li>
+          </ul>
+        </div>
+        <div class="profile-block">
+          <h3>🚀 Proyectos recientes</h3>
+          <ul>
+            <li>Portfolio personal (esta web)</li>
+            <li>Página web de una Hamburguesería</li>
+            <li>Página web de un Almacén Hortofrutícola</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <form id="contactForm">
+        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
+        <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
+        <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje" required></textarea>
+        <button type="submit">Enviar</button>
+      </form>
+      <div id="formMsg"></div>
+    </section>
+  </main>
+  <footer>
+    © 2025 Antonio Fernández Villegas — Portfolio.
+  </footer>
+  <script src="JS/script.js"></script>
+</body>
+</html>

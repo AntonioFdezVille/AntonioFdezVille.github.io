@@ -1,75 +1,190 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Portfolio - Antonio Fernández Villegas</title>
-  <link rel="stylesheet" href="CSS/styles.css">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:700,900|Roboto:400,700&display=swap">
-  <link rel="icon" type="image/x-icon" href="Fotos/afv.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Antonio Fernández Villegas</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="Fotos/Logo.ico">
 </head>
 <body>
-  <header>
-    <h1 class="main-title">Portfolio de <span>Antonio Fernández Villegas</span></h1>
-    <nav>
-      <a href="index.html" class="active">Inicio</a>
-      <a href="sobre.html">Sobre mí</a>
-      <a href="proyectos.html">Proyectos</a>
-    </nav>
-  </header>
-  <main>
-    <section id="inicio">
-      <h2>¡Hola! 👋 Soy Antonio</h2>
-      <p>
-        <b>Técnico Informático</b> con título de <b>Grado Medio en Sistemas Microinformáticos y Redes (SMR, 2022-2024)</b>.<br>
-        Actualmente curso <b>ASIR</b> y ya he completado el primer año.<br>
-        Apasionado por la tecnología, la administración de sistemas y el aprendizaje continuo.
-      </p>
-      <div class="profile-blocks">
-        <div class="profile-block">
-          <h3>🛠️ Habilidades Técnicas</h3>
-          <ul>
-            <li><b>Sistemas Operativos:</b> Windows, Linux (Ubuntu, Debian)</li>
-            <li><b>Redes:</b> LAN, WAN, TCP/IP, DNS, DHCP, VPN</li>
-            <li><b>Seguridad:</b> Firewalls, gestión de permisos, antivirus</li>
-            <li><b>Virtualización:</b> VMware, VirtualBox</li>
-            <li><b>Bases de Datos:</b> MySQL, SQL Server</li>
-            <li><b>Administración:</b> Active Directory, servidores</li>
-            <li><b>Scripting:</b> Bash, Batch, PowerShell</li>
-          </ul>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div id="progress-bar"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">Portfolio de Antonio</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="proyectos.html" class="nav-link">Proyectos</a></li>
+                <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="inicio" class="section hero-about">
+            <div id="particles-js"></div>
+            <div class="about-content">
+                <div class="about-left reveal-left">
+                    <div class="avatar-container reveal-zoom">
+                        <img src="Fotos/avatar.png" alt="Foto de Antonio Fernández">
+                    </div>
+                    <h1>¡Hola! 👋 Soy Antonio</h1>
+                    <p class="subtitle">Técnico Informático con Grado Medio en <strong>Sistemas Microinformáticos y Redes</strong> (2022-2024).</p>
+                    <p class="current-status">Actualmente curso el segundo año del Grado Superior en <strong>Administración de Sistemas Informáticos en Red (ASIR)</strong>.</p>
+                    <p class="passion">Apasionado por la tecnología, la administración de sistemas y el aprendizaje continuo para afrontar nuevos retos. Y en continuo aprendizaje.</p>
+                </div>
+
+                
+
+                <div class="about-right reveal-right">
+                    <div class="skills-section">
+                        <h2 class="skills-title">🛠️ Habilidades Técnicas</h2>
+                        <div class="skill-category reveal-up">
+                            <h3><i class="fas fa-server"></i>Sistemas Operativos</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Windows</span>
+                                <span class="skill-tag">Windows Server</span>
+                                <span class="skill-tag">Linux</span>
+                                <span class="skill-tag">Ubuntu</span>
+                                <span class="skill-tag">Ubuntu Server</span>
+                                <span class="skill-tag">Debian</span>
+                            </div>
+                        </div>
+                        <div class="skill-category reveal-up delay-1">
+                            <h3><i class="fas fa-network-wired"></i>Redes</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">LAN/WAN</span>
+                                <span class="skill-tag">TCP/IP</span>
+                                <span class="skill-tag">DNS</span>
+                                <span class="skill-tag">DHCP</span>
+                                <span class="skill-tag">VPN</span>
+                            </div>
+                        </div>
+                         <div class="skill-category reveal-up delay-2">
+                            <h3><i class="fas fa-shield-halved"></i>Seguridad</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Firewalls</span>
+                                <span class="skill-tag">Permisos</span>
+                                <span class="skill-tag">Antivirus</span>
+                            </div>
+                        </div>
+                         <div class="skill-category reveal-up delay-3">
+                            <h3><i class="fas fa-desktop"></i>Virtualización</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">VirtualBox</span>
+                            </div>
+                        </div>
+                        <div class="skill-category reveal-up delay-4">
+                            <h3><i class="fas fa-database"></i>Bases de Datos</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">MySQL</span>
+                                <span class="skill-tag">SQL Server</span>
+                            </div>
+                        </div>
+                        <div class="skill-category reveal-up delay-5">
+                            <h3><i class="fas fa-code"></i>Scripting</h3>
+                            <div class="skill-tags">
+                                <span class="skill-tag">Bash</span>
+                                <span class="skill-tag">Batch</span>
+                                <span class="skill-tag">PowerShell</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="skills-section reveal-up delay-5">
+                        <h2 class="skills-title">📚 Actualmente Aprendiendo</h2>
+                         <div class="skill-category">
+                            <h3><i class="fas fa-graduation-cap"></i>Grado Superior ASIR</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="experiencia-formacion" class="section">
+
+    <h2 class="section-title reveal-up">Formación Académica</h2>
+    <div class="timeline">
+        <div class="timeline-item reveal-up">
+            <div class="timeline-content">
+                <h3>Grado Medio de Sistemas Microinformáticos y Redes</h3>
+                <p class="timeline-location">IES Sierra de Gádor (Berja)</p>
+                <span class="timeline-date">2022 - 2024</span>
+            </div>
         </div>
-        <div class="profile-block">
-          <h3>📚 Actualmente aprendiendo</h3>
-          <ul>
-            <li>FP Grado Superior de Administración de Sistemas Informáticos en Red (ASIR)</li>
-            <li>Automatización con scripts</li>
-            <li>Mejora de seguridad y virtualización</li>
-          </ul>
+        <div class="timeline-item reveal-up">
+            <div class="timeline-content">
+                <h3>Grado Superior de Administración de Sistemas Informáticos en Red</h3>
+                <p class="timeline-location">IES Al-Andalus (Almería)</p>
+                <span class="timeline-date">2024 - PRESENTE</span>
+            </div>
         </div>
-        <div class="profile-block">
-          <h3>🚀 Proyectos recientes</h3>
-          <ul>
-            <li>Portfolio personal (esta web)</li>
-            <li>Página web de una Hamburguesería</li>
-            <li>Página web de un Almacén Hortofrutícola</li>
-          </ul>
+    </div>
+
+    <h2 class="section-title reveal-up">Prácticas en Empresa</h2>
+    <div class="experience-cards">
+        <div class="experience-card reveal-up">
+            <div class="experience-logo">
+                <img src="Fotos/quantasoft.png" alt="Logo Quantasoft Praga">
+            </div>
+            <div class="experience-details">
+                <h3>Quantasoft Praga</h3>
+                <p class="experience-date">Marzo 2024 - Junio 2024 (3 meses)</p>
+                <p class="experience-description">Prácticas Erasmus en República Checa (Praga) con certificado Europass.</p>
+            </div>
         </div>
-      </div>
-    </section>
-    <section id="contacto">
-      <h2>Contacto</h2>
-      <form id="contactForm">
-        <input type="text" id="nombre" name="nombre" placeholder="Tu nombre" required>
-        <input type="email" id="email" name="email" placeholder="Tu correo electrónico" required>
-        <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje" required></textarea>
-        <button type="submit">Enviar</button>
-      </form>
-      <div id="formMsg"></div>
-    </section>
-  </main>
-  <footer>
-    © 2025 Antonio Fernández Villegas — Portfolio.
-  </footer>
-  <script src="JS/script.js"></script>
+        <div class="experience-card reveal-up">
+            <div class="experience-logo">
+                <img src="Fotos/diputacion.jpeg" alt="Logo Diputación de Almería">
+            </div>
+            <div class="experience-details">
+                <h3>Diputación de Almería</h3>
+                <p class="experience-date">3 semanas y 3 días</p>
+                <p class="experience-description">Prácticas en Diputación de Almería (España) en la nueva FP DUAL.</p>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="section-title reveal-up">Certificados y Cursos</h2>
+    <div class="certs-grid">
+        <div class="cert-card reveal-zoom">
+            <img src="Fotos/ccna1.png" class="cert-badge" alt="Certificado CCNA">
+            <h3>CCNA: Introducción a las redes</h3>
+            <span class="cert-year">2025</span>
+        </div>
+        <div class="cert-card reveal-zoom delay-1">
+            <img src="Fotos/linux.png" class="cert-badge" alt="Certificado Linux">
+            <h3>Fundamentos de Linux</h3>
+            <span class="cert-year">2025</span>
+        </div>
+        <div class="cert-card reveal-zoom delay-2">
+            <img src="Fotos/ciberseguridad.png" class="cert-badge" alt="Certificado Ciberseguridad">
+            <h3>Introducción a la Ciberseguridad</h3>
+            <span class="cert-year">2025</span>
+        </div>
+         <div class="cert-card reveal-zoom delay-3">
+            <img src="Fotos/europass.png" class="cert-badge" alt="Certificado Europass">
+            <h3>Certificado Europass</h3>
+            <span class="cert-year">2024</span>
+        </div>
+    </div>
+
+</section>
+
+    </main>
+
+    <footer class="footer">
+        <p>Diseñado y desarrollado por Antonio Fernández Villegas &copy; 2025</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script src="JS/script.js"></script>
 </body>
 </html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Antonio Fernández Villegas</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="Fotos/Logo.ico">
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div id="progress-bar"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">Portfolio de Antonio</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="proyectos.html" class="nav-link">Proyectos</a></li>
+                <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="proyectos" class="section">
+            <h2 class="section-title reveal-up">Futuros Proyectos</h2>
+            
+
+            <div class="projects-grid">
+                <div class="project-card" data-category="web">
+                    <a href="Proyectos/Hamburgueseria/index.html" target="_blank">
+                        <div class="project-image">
+                            <img src="Fotos/hamburgueseria.png" alt="Diseño de web para hamburguesería">
+                            <div class="project-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Web Hamburgueseria</h3>
+                            <span>HTML / CSS / JavaScript</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="project-card" data-category="web">
+                     <a href="Proyectos/Almacen/index.html" target="_blank">
+                        <div class="project-image">
+                            <img src="Fotos/almacen.png" alt="Diseño de web para almacén hortofrutícola">
+                            <div class="project-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Web Almacén Hortofrutícola</h3>
+                            <span>HTML / CSS / JavaScript</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Diseñado y desarrollado por Antonio Fernández Villegas &copy; 2025</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    
+    <script src="JS/script.js"></script>
+</body>
+</html>

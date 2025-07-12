@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Antonio Fernández Villegas</title>
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="Fotos/Logo.ico">
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div id="progress-bar"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">Portfolio de Antonio</a>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="index.html" class="nav-link">Inicio</a></li>
+                <li class="nav-item"><a href="proyectos.html" class="nav-link">Proyectos</a></li>
+                <li class="nav-item"><a href="contacto.html" class="nav-link">Contacto</a></li>
+            </ul>
+            <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="contacto" class="section contact-section-redesigned">
+            
+            <div id="contact-wrapper">
+                <div id="contact-form-container">
+                    <h2 class="section-title reveal-up">Hablemos</h2>
+                    <p class="contact-subtitle reveal-up delay-1">¿Tienes una idea? Vamos a hacerla realidad.</p>
+                    
+                    <form id="contact-form" action="https://formspree.io/f/mnnveerl" method="POST">
+                        <div class="form-group reveal-up">
+                            <input type="text" id="name" name="name" class="form-input" placeholder=" " required>
+                            <label for="name" class="form-label">Nombre</label>
+                        </div>
+                        <div class="form-group reveal-up delay-1">
+                            <input type="email" id="email" name="email" class="form-input" placeholder=" " required>
+                            <label for="email" class="form-label">Email</label>
+                        </div>
+                        <div class="form-group reveal-up delay-2">
+                            <textarea id="message" name="message" class="form-input" rows="5" placeholder=" " required></textarea>
+                            <label for="message" class="form-label">Tu mensaje</label>
+                        </div>
+                        <div class="reveal-up delay-3">
+                            <button type="submit" id="submit-btn" class="btn contact-btn">
+                                <span class="btn-text">Enviar Mensaje</span>
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <div id="success-message" class="hidden">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h2>¡Gracias por tu mensaje!</h2>
+                    <p>He recibido tu correo y te responderé lo antes posible.</p>
+                    <div id="confetti-container"></div>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Diseñado y desarrollado por Antonio Fernández Villegas &copy; 2025</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="JS/script.js"></script>
+</body>
+</html>

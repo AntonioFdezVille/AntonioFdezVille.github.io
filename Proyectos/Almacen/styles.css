@@ -1,0 +1,119 @@
+:root {
+    /* Paleta de colores inspirada en la naturaleza pero con mucha fuerza */
+    --primary-color: #76FF03;  /* Verde lima súper vibrante */
+    --dark-color: #1A231A;     /* Un negro con un matiz verde oscuro */
+    --text-color: #FFFFFF;
+    --font-title: 'Alfa Slab One', cursive; /* La fuente estrella */
+    --font-text: 'Lato', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-text);
+    color: var(--text-color);
+}
+
+/* --- La sección principal con imagen de fondo --- */
+.hero-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 2rem;
+    text-align: center;
+    
+    /* El efecto clave: imagen de fondo con un filtro oscuro encima */
+    background: 
+        linear-gradient(rgba(26, 35, 26, 0.7), rgba(26, 35, 26, 0.7)),
+        url('https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?q=80&w=2070&auto=format&fit=crop') 
+        center/cover no-repeat;
+}
+
+.hero-content {
+    max-width: 800px;
+    /* Animación de entrada: el contenido aparece desde abajo */
+    animation: fadeInUp 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.title {
+    font-family: var(--font-title);
+    font-size: clamp(3rem, 10vw, 6rem); /* Texto enorme y adaptable */
+    color: var(--primary-color);
+    text-shadow: 4px 4px 0px var(--dark-color); /* Sombra dura para efecto 3D */
+    line-height: 1.1;
+    margin-bottom: 1rem;
+}
+
+.subtitle {
+    font-size: clamp(1.1rem, 3vw, 1.4rem);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 2.5rem auto;
+}
+
+/* --- Botón con estilo --- */
+.btn {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: var(--dark-color);
+    padding: 1rem 2.5rem;
+    text-decoration: none;
+    font-weight: 700;
+    letter-spacing: 1px;
+    border-radius: 5px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.status {
+    margin-top: 2rem;
+    font-size: 0.9rem;
+    opacity: 0.7;
+}
+
+.dots::after {
+    content: '.';
+    display: inline-block;
+    width: 1em;
+    text-align: left;
+    animation: dots-animation 1.5s steps(3, end) infinite;
+}
+
+/* --- Animaciones --- */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes dots-animation {
+    33% { content: '..'; }
+    66% { content: '...'; }
+}
+
+/* --- Estilos para el Footer --- */
+.footer {
+    position: fixed; /* Lo fija en la ventana del navegador */
+    bottom: 0;       /* Lo alinea a la parte inferior */
+    left: 0;         /* Lo alinea a la izquierda */
+    width: 100%;     /* Hace que ocupe todo el ancho */
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo negro semitransparente */
+    color: white;    /* Color del texto */
+    text-align: center; /* Centra el texto */
+    padding: 1rem;   /* Espaciado interno para que no se pegue a los bordes */
+    font-size: 0.8rem; /* Tamaño de letra pequeño y discreto */
+}

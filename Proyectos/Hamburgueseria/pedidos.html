@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/x-icon" href="Fotos/logo.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Pedido - BurgerHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body class="pedido-page">
+
+    <div class="cursor"></div>
+    <div id="preloader">🍔</div>
+
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="index.html" class="nav-logo">BurgerHub 🍔</a>
+            <button class="hamburger-menu" aria-label="Abrir menú">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="burgers.html">Burgers</a></li>
+                    <li><a href="acompanantes.html">Acompañantes</a></li>
+                    <li><a href="bebidas.html">Bebidas</a></li>
+                    <li><a href="pedidos.html" class="nav-pedidos active">Pedido (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="menu-page">
+        <h1 class="page-title">Finaliza tu Pedido</h1>
+        <div class="pedido-container">
+            <div id="cart-items-container" class="cart-summary">
+                <h2>Resumen del Carrito</h2>
+                <div id="cart-items">
+                    <!-- Los artículos del carrito se insertarán aquí con JS -->
+                </div>
+                <hr>
+                <div class="cart-total">
+                    <strong>Total:</strong>
+                    <span id="cart-total">0.00€</span>
+                </div>
+            </div>
+
+            <form id="order-form" class="order-form">
+                <h2>Tus Datos</h2>
+                
+                <div class="form-group">
+                    <label for="name">Nombre y Apellidos</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Número de Teléfono</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="municipio">Municipio</label>
+                    <input type="text" id="municipio" name="municipio" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="calle">Calle</label>
+                    <input type="text" id="calle" name="calle" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="detalles">Número, Piso, Detalles (portal, etc.)</label>
+                    <textarea id="detalles" name="detalles" rows="3"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Método de Pago</label>
+                    <div class="payment-options">
+                        <label class="radio-option">
+                            <input type="radio" name="payment" value="efectivo" checked>
+                            <span></span>
+                            Efectivo
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="payment" value="tarjeta">
+                            <span></span>
+                            Tarjeta
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-submit">Confirmar Pedido</button>
+            </form>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 BurgerHub - Antonio Fernández Villegas. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

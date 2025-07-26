@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/x-icon" href="Fotos/logo.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú de Burgers - BurgerHub</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="cursor"></div>
+    <div id="preloader">🍔</div>
+
+    <header class="main-header">
+        <nav class="main-nav">
+            <a href="index.html" class="nav-logo">BurgerHub 🍔</a>
+            <button class="hamburger-menu" aria-label="Abrir menú">
+                <span class="line"></span>
+                <span class="line"></span>
+                <span class="line"></span>
+            </button>
+            <div class="nav-links">
+                <ul>
+                    <li><a href="burgers.html">Burgers</a></li>
+                    <li><a href="acompanantes.html">Acompañantes</a></li>
+                    <li><a href="bebidas.html">Bebidas</a></li>
+                    <li><a href="pedidos.html" class="nav-pedidos">Pedido (<span id="cart-count">0</span>)</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="menu-page">
+        <h1 class="page-title">Nuestras Burgers</h1>
+        <div class="menu-grid">
+            <article class="menu-card">
+                <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="La Clásica">
+                <div class="card-content">
+                    <h3>La Clásica</h3>
+                    <p>Carne de ternera, queso cheddar, lechuga, tomate y nuestra salsa secreta.</p>
+                    <div class="card-footer">
+                        <span class="price">8.50€</span>
+                        <button class="btn btn-secondary" onclick="addToCart('La Clásica', 8.50)">Añadir</button>
+                    </div>
+                </div>
+            </article>
+            <article class="menu-card">
+                <img src="Fotos/bbq.jpg" alt="Bacon BBQ">
+                <div class="card-content">
+                    <h3>Bacon BBQ</h3>
+                    <p>Doble de bacon crujiente, aros de cebolla, y salsa barbacoa ahumada.</p>
+                    <div class="card-footer">
+                        <span class="price">10.50€</span>
+                        <button class="btn btn-secondary" onclick="addToCart('Bacon BBQ', 10.50)">Añadir</button>
+                    </div>
+                </div>
+            </article>
+            <article class="menu-card">
+                <img src="https://images.unsplash.com/photo-1607013251379-e6eecfffe234?ixlib=rb-4.0.3&q=85&fm=jpg&crop=entropy&cs=srgb&w=600" alt="La Picante">
+                <div class="card-content">
+                    <h3>La Volcánica</h3>
+                    <p>Queso pepper jack, jalapeños frescos, cebolla frita y nuestra salsa chipotle infernal.</p>
+                    <div class="card-footer">
+                        <span class="price">9.75€</span>
+                        <button class="btn btn-secondary" onclick="addToCart('La Volcánica', 9.75)">Añadir</button>
+                    </div>
+                </div>
+            </article>
+             <article class="menu-card">
+                <img src="Fotos/smash.webp" alt="Doble Smash">
+                <div class="card-content">
+                    <h3>Doble Smash</h3>
+                    <p>Dos patties de carne aplastados en la plancha, doble de queso americano y pepinillos.</p>
+                    <div class="card-footer">
+                        <span class="price">11.50€</span>
+                        <button class="btn btn-secondary" onclick="addToCart('Doble Smash', 11.50)">Añadir</button>
+                    </div>
+                </div>
+            </article>
+        </div>
+    </main>
+
+    <footer class="main-footer">
+        <p>&copy; 2025 BurgerHub - Antonio Fernández Villegas. Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

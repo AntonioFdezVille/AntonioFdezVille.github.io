@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Factura - AgroVillegas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="main-container">
+        <div class="form-container">
+            <div class="form-header">
+                <a href="../index.html" class="back-button">&larr; Volver al Menú</a>
+                <h1>Crear Factura</h1>
+                <p>Rellena los datos para generar la factura final.</p>
+            </div>
+            
+            <form id="factura-form" autocomplete="off">
+                <fieldset>
+                    <legend>Datos de la Factura</legend>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="factura-numero">Nº de Factura</label>
+                            <input type="text" id="factura-numero" placeholder="Ej: 2025-001">
+                        </div>
+                        <div class="input-group">
+                            <label for="factura-fecha">Fecha de Factura</label>
+                            <input type="date" id="factura-fecha">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Datos del Cliente</legend>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="cliente-nombre">Nombre o Razón Social</label>
+                            <input type="text" id="cliente-nombre" placeholder="Nombre del cliente">
+                        </div>
+                        <div class="input-group">
+                            <label for="cliente-nif">NIF/CIF</label>
+                            <input type="text" id="cliente-nif" placeholder="NIF o CIF del cliente">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="cliente-direccion">Dirección Fiscal</label>
+                            <textarea id="cliente-direccion" rows="3" placeholder="Calle, número, ciudad..."></textarea>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Conceptos de la Factura</legend>
+                    <table id="tabla-conceptos" class="form-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th><th>Cantidad</th><th>Precio Unit. (€)</th><th>Importe (€)</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-conceptos"></tbody>
+                    </table>
+                    <button type="button" id="add-row-btn" class="add-row-button">+ Añadir Concepto</button>
+                </fieldset>
+
+                <fieldset>
+                    <legend>Impuestos y Totales</legend>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="tipo-iva">Tipo de IVA (%)</label>
+                            <select id="tipo-iva">
+                                <option value="10">10% (Agrícola General)</option>
+                                <option value="4">4% (Superreducido)</option>
+                                <option value="21">21% (General)</option>
+                                <option value="0">0% (Exento)</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label for="metodo-pago">Método de Pago</label>
+                             <select id="metodo-pago">
+                                <option>Transferencia Bancaria</option>
+                                <option>Domiciliación</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
+            <div class="action-buttons">
+                <button id="imprimir-btn">🖨️ Imprimir</button>
+                <button id="descargar-btn">📥 Descargar PDF</button>
+            </div>
+        </div>
+
+        <div class="preview-container">
+            <div id="pdf-content">
+                <header class="pdf-header">
+                    <div class="sender-details">
+                        <h2>Futbol Club JR S.L</h2>
+                        <p>Calle Play, Num 18 Planta AT</p>
+                        <p>04715 Almería El Ejido, SPAIN</p>
+                        <p>NIF: B44617520</p>
+                    </div>
+                    <div class="factura-title">
+                        <h1>FACTURA</h1>
+                        <p><strong>Nº:</strong> <span id="pdf-factura-numero"></span></p>
+                        <p><strong>Fecha:</strong> <span id="pdf-factura-fecha"></span></p>
+                    </div>
+                </header>
+
+                <section class="pdf-client">
+                    <h3>Facturar a:</h3>
+                    <p><strong><span id="pdf-cliente-nombre"></span></strong></p>
+                    <p><span id="pdf-cliente-direccion"></span></p>
+                    <p><strong>NIF/CIF:</strong> <span id="pdf-cliente-nif"></span></p>
+                </section>
+
+                <table class="pdf-items-table">
+                    <thead>
+                        <tr>
+                            <th>Descripción</th>
+                            <th>Cantidad</th>
+                            <th>Precio Unitario</th>
+                            <th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pdf-lista-conceptos"></tbody>
+                </table>
+
+                <footer class="pdf-footer">
+                    <div class="payment-details">
+                        <h3>Datos de Pago</h3>
+                        <p><strong>Método de pago:</strong> <span id="pdf-metodo-pago"></span></p>
+                        <p><strong>IBAN:</strong> ES00 0000 0000 0000 0000 0000</p>
+                        <p class="footer-legal-text">
+                            Futbol Club JR S.L - Registro Mercantil de Almería, Tomo 0, Folio 0, Hoja AL-00000.
+                        </p>
+                    </div>
+                    <div class="totals-container">
+                        <div class="totals-row">
+                            <span>Base Imponible</span>
+                            <span id="pdf-base-imponible">0,00 €</span>
+                        </div>
+                        <div class="totals-row">
+                            <span>IVA (<span id="pdf-tipo-iva">10</span>%)</span>
+                            <span id="pdf-cuota-iva">0,00 €</span>
+                        </div>
+                        <div class="totals-row grand-total">
+                            <span>TOTAL</span>
+                            <span id="pdf-total-factura">0,00 €</span>
+                        </div>
+                    </div>
+                </footer>
+            </div>
+        </div>
+    </div>
+    
+    <button id="mobile-preview-btn" class="mobile-preview-button">👁️ Previsualizar</button>
+    <div id="preview-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close-button">&times;</button>
+            <div id="modal-pdf-content"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

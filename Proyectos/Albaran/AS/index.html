@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Albarán de Salida - AgroVillegas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+
+        <div class="form-container">
+            <div class="form-header">
+                <a href="../index.html" class="back-button">&larr; Volver al Menú</a>
+                <h1>Albarán de Salida</h1>
+                <p>Rellena los campos para generar el documento.</p>
+            </div>
+            
+            <form id="albaran-form" autocomplete="off">
+                <div class="form-section">
+                    <h3>Datos del Albarán y Cliente</h3>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="albaran-numero">Albarán N.º</label>
+                            <input type="text" id="albaran-numero" name="albaran-numero" placeholder="Ej: ALB-SMB-007">
+                        </div>
+                        <div class="input-group">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" id="fecha" name="fecha">
+                        </div>
+                        <div class="input-group">
+                            <label for="entrega">Fecha/Hora Entrega</label>
+                            <input type="text" id="entrega" name="entrega" placeholder="Ej: 01/08/2025 (06:00 - 12:00)">
+                        </div>
+                        <div class="input-group">
+                            <label for="condiciones">Condiciones</label>
+                            <input type="text" id="condiciones" name="condiciones" placeholder="Ej: DDP">
+                        </div>
+                        <div class="input-group">
+                            <label for="cliente-nombre">Nombre del Cliente</label>
+                            <input type="text" id="cliente-nombre" name="cliente-nombre" placeholder="Ej: Somos Bio S. L">
+                        </div>
+                         <div class="input-group">
+                            <label for="pedido-numero">Pedido N.º</label>
+                            <input type="text" id="pedido-numero" name="pedido-numero" placeholder="Ej: 280011149">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="cliente-direccion">Dirección del Cliente</label>
+                            <textarea id="cliente-direccion" name="cliente-direccion" rows="3" placeholder="Ej: Carretera Almería-Málaga N340..."></textarea>
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="lugar-carga">Lugar de carga</label>
+                            <textarea id="lugar-carga" name="lugar-carga" rows="3" placeholder="Ej: Acosta Infante calle IV..."></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Detalle de productos entregados</h3>
+                    <table id="tabla-productos" class="form-table">
+                        <thead>
+                            <tr>
+                                <th>Descripción</th><th>Cat.</th><th>CAL</th><th>Envase</th>
+                                <th>Piezas</th><th>Cajas</th><th>Neto</th><th>Precio</th><th>Importe</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-productos"></tbody>
+                    </table>
+                    <button type="button" id="add-row-btn" class="add-row-button">+ Añadir producto</button>
+                </div>
+
+                <div class="form-section">
+                    <h3>Totales y Observaciones</h3>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="numero-palets">Número de Palets</label>
+                            <input type="number" id="numero-palets" name="numero-palets" value="0" min="0">
+                        </div>
+                        <div class="input-group">
+                             <label for="transportista-nombre">Nombre Transportista / Receptor</label>
+                            <input type="text" id="transportista-nombre" name="transportista-nombre">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="observaciones">Observaciones</label>
+                            <textarea id="observaciones" name="observaciones" rows="3" placeholder="Ej: - Producto ecológico certificado..."></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            
+            <div class="action-buttons">
+                <button id="imprimir-btn">🖨️ Imprimir</button>
+                <button id="descargar-btn">📥 Descargar PDF</button>
+            </div>
+        </div>
+
+        <div class="preview-container">
+            <div id="pdf-content">
+                <h1 class="pdf-main-title">ALBARÁN DE SALIDA</h1>
+                <div class="pdf-top-section">
+                    <div class="pdf-sender-details">
+                        <p><strong>Futbol Club JR S.L.</strong></p>
+                        <p>Calle Play, Num 18 Planta</p><p>04715 Almería El Ejido, SPAIN</p><p>CIF: B44617520</p><br>
+                        <p><strong>Albarán N.º:</strong> <span id="pdf-albaran-numero"></span></p>
+                        <p><strong>Entrega:</strong> <span id="pdf-entrega"></span></p>
+                        <p><strong>Fecha:</strong> <span id="pdf-fecha"></span></p>
+                        <p><strong>Condiciones:</strong> <span id="pdf-condiciones"></span></p>
+                    </div>
+                    <div class="pdf-receiver-details">
+                        <p><strong>Cliente:</strong> <span id="pdf-cliente-nombre"></span></p>
+                        <p id="pdf-cliente-direccion"></p><br>
+                        <p><strong>Pedido N.º:</strong> <span id="pdf-pedido-numero"></span></p>
+                        <p><strong>Lugar de carga:</strong></p><p id="pdf-lugar-carga"></p>
+                    </div>
+                </div>
+                <div class="pdf-items-section">
+                    <p><strong>Detalle de productos entregados:</strong></p>
+                    <table class="pdf-table">
+                        <thead><tr><th>Descripción</th><th>Categoría</th><th>CAL</th><th>Envase</th><th>Piezas</th><th>Cajas</th><th>Neto</th><th>Precio</th><th>Importe(EUR)</th></tr></thead>
+                        <tbody id="pdf-lista-productos"></tbody>
+                    </table>
+                </div>
+                <div class="pdf-summary-section">
+                    <p><strong>Suma total palets:</strong> <span id="pdf-suma-palets"></span></p>
+                    <p><strong>Observaciones:</strong></p><p id="pdf-observaciones"></p>
+                </div>
+                <div class="pdf-signature-section">
+                    <p><strong>Transportista / Receptor:</strong></p>
+                    <div class="signature-line"><strong>Nombre:</strong><span id="pdf-transportista-nombre" class="fill-line"></span></div>
+                    <div class="signature-line"><strong>Firma:</strong><span class="fill-line"></span></div>
+                    <div class="signature-line"><strong>Fecha y hora:</strong><span class="fill-line"></span></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <button id="mobile-preview-btn" class="mobile-preview-button">👁️ Previsualizar</button>
+
+    <div id="preview-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close-button">&times;</button>
+            <div id="modal-pdf-content">
+                </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

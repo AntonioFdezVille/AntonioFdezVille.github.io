@@ -1,0 +1,102 @@
+/* --- ESTILOS GENERALES Y DE FORMULARIO (Se mantienen igual) --- */
+body { background-color: #f0f2f5; font-family: 'Roboto', sans-serif; margin: 0; color: #333; }
+.main-container { display: flex; flex-wrap: wrap; min-height: 100vh; }
+.form-container { width: 50%; padding: 2rem 3rem; background-color: #fff; box-sizing: border-box; display: flex; flex-direction: column; }
+.form-header .back-button { text-decoration: none; color: #007bff; font-weight: bold; display: inline-block; margin-bottom: 1.5rem; }
+.form-header h1 { margin: 0 0 0.5rem 0; }
+.form-section { margin-bottom: 2rem; }
+.form-section h3 { border-bottom: 2px solid #007bff; padding-bottom: 0.5rem; margin-bottom: 1.5rem; color: #007bff; }
+.form-grid { display: grid; gap: 1.5rem; }
+.two-columns { grid-template-columns: 1fr 1fr; }
+.input-group { display: flex; flex-direction: column; }
+.input-group.full-width { grid-column: 1 / -1; }
+.input-group label { margin-bottom: 0.5rem; font-weight: 500; color: #555; }
+.input-group input, .input-group textarea { padding: 0.75rem; border: 1px solid #ccc; border-radius: 5px; font-size: 1rem; font-family: 'Roboto', sans-serif; }
+.input-group textarea { resize: vertical; }
+.form-table { width: 100%; border-collapse: collapse; }
+.form-table th, .form-table td { padding: 0.5rem; text-align: left; vertical-align: middle; }
+.form-table input { width: 100%; padding: 0.5rem; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+.remove-row-btn { background: none; border: none; color: red; font-size: 1.5rem; cursor: pointer; padding: 0.5rem; line-height: 1; }
+.add-row-button { margin-top: 1rem; border: 1px dashed #007bff; background: #f0f8ff; color: #007bff; padding: 0.75rem; width: 100%; font-weight: bold; cursor: pointer; border-radius: 5px; }
+.action-buttons { padding-top: 1.5rem; border-top: 1px solid #eee; display: flex; gap: 1rem; justify-content: flex-end; }
+.action-buttons button { padding: 0.8rem 1.5rem; font-size: 1rem; font-weight: bold; border-radius: 8px; border: none; cursor: pointer; transition: background-color 0.2s; }
+#imprimir-btn { background-color: #007bff; color: white; }
+#descargar-btn { background-color: #28a745; color: white; }
+
+/* --- SECCIÓN DE PREVISUALIZACIÓN Y PDF (Sin cambios) --- */
+.preview-container { width: 50%; padding: 2rem; box-sizing: border-box; display: flex; justify-content: center; align-items: flex-start; }
+#pdf-content { width: 210mm; min-height: 297mm; background-color: white; box-shadow: 0 0 15px rgba(0,0,0,0.15); padding: 15mm; box-sizing: border-box; font-size: 10pt; color: black; }
+.pdf-main-title { text-align: center; font-size: 16pt; margin-bottom: 15mm; }
+.pdf-top-section { display: flex; justify-content: space-between; margin-bottom: 10mm; }
+.pdf-sender-details, .pdf-receiver-details { width: 48%; }
+.pdf-receiver-details { border: 1px solid black; padding: 1rem; }
+.pdf-top-section p { margin: 3px 0; }
+.pdf-items-section { margin-bottom: 10mm; }
+.pdf-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+.pdf-table th, .pdf-table td { border: 1px solid black; padding: 5px; text-align: left; }
+.pdf-table th { background-color: #f2f2f2; }
+.pdf-summary-section { margin-bottom: 15mm; }
+.pdf-summary-section p { margin: 5px 0; }
+#pdf-observaciones, #pdf-lugar-carga, #pdf-cliente-direccion { white-space: pre-wrap; }
+.pdf-signature-section { border-top: 1px solid black; padding-top: 5mm; }
+.pdf-signature-section .signature-line { display: flex; margin-top: 10mm; }
+.signature-line .fill-line { flex-grow: 1; border-bottom: 1px solid black; margin-left: 10px; }
+
+/* --- ESTILOS PARA MODAL Y BOTÓN FLOTANTE --- */
+.mobile-preview-button {
+    display: none;
+    position: fixed;
+    /* CORREGIDO: Aumentado para no tapar la barra de acciones */
+    bottom: 6rem; 
+    right: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    width: 150px;
+    padding: 15px;
+    font-size: 1rem;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    z-index: 1000;
+    cursor: pointer;
+}
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: rgba(0,0,0,0.7); z-index: 2000; justify-content: center; align-items: center; }
+.modal-overlay.active { display: flex; }
+.modal-content { position: relative; width: 95vw; height: 90vh; overflow-y: auto; }
+.modal-close-button { position: absolute; top: -10px; right: -10px; background-color: white; border: 2px solid black; border-radius: 50%; width: 40px; height: 40px; font-size: 1.5rem; font-weight: bold; cursor: pointer; z-index: 2001; }
+#modal-pdf-content > div { transform: scale(0.5); transform-origin: top center; }
+
+/* --- ESTILOS PARA IMPRIMIR (Sin cambios) --- */
+@media print {
+    .form-container, .mobile-preview-button, .modal-overlay { display: none !important; }
+    body, .main-container { padding: 0; margin: 0; }
+    .preview-container { display: block !important; width: 100%; padding: 0; margin: 0; }
+    #pdf-content { box-shadow: none; border: none; margin: 0 auto; padding: 10mm; transform: scale(1) !important; }
+}
+
+/* --- AJUSTES RESPONSIVE --- */
+@media (max-width: 1200px) {
+    .main-container { flex-direction: column; }
+    .form-container { width: 100%; order: 2; }
+    .preview-container { display: none; }
+    .mobile-preview-button { display: block; }
+    .action-buttons { position: sticky; bottom: 0; background: white; padding: 1rem; margin: 0 -3rem -2rem; z-index: 999; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); }
+}
+
+@media (max-width: 768px) {
+    .form-container { padding: 1.5rem; }
+    .two-columns { grid-template-columns: 1fr; }
+    .input-group.full-width { grid-column: 1; }
+    .action-buttons { margin: 0 -1.5rem -1.5rem; }
+
+    /* ESTILOS PARA LA TABLA DE PRODUCTOS RESPONSIVE (Sin cambios) */
+    .form-table thead { display: none; }
+    .form-table tr { display: block; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 1.5rem; padding: 1rem; }
+    .form-table td { display: flex; justify-content: space-between; align-items: center; padding: 0.7rem 0; border-bottom: 1px solid #f0f0f0; }
+    .form-table tr td:last-child { border-bottom: none; }
+    .form-table td[data-label]::before { content: attr(data-label); font-weight: 500; padding-right: 1rem; }
+    .form-table td[data-label="Quitar"] { justify-content: center; padding-top: 1rem; }
+    .form-table td[data-label="Quitar"]::before { content: ""; }
+    .form-table input { width: 60%; text-align: right; }
+}

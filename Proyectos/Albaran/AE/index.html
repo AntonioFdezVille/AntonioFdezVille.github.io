@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Albarán de Entrada - AgroVillegas</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="form-container">
+            <div class="form-header">
+                <a href="../index.html" class="back-button">&larr; Volver al Menú</a>
+                <h1>Albarán de Entrada</h1>
+                <p>Rellena los datos del proveedor y los productos recibidos.</p>
+            </div>
+            
+            <form id="albaran-form" autocomplete="off">
+                <div class="form-section">
+                    <h3>Datos del Albarán</h3>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="albaran-numero">Albarán N.º</label>
+                            <input type="text" id="albaran-numero" placeholder="Ej: 05000368">
+                        </div>
+                        <div class="input-group">
+                            <label for="fecha">Fecha</label>
+                            <input type="date" id="fecha">
+                        </div>
+                         <div class="input-group">
+                            <label for="codigo-productor">Cód. Productor</label>
+                            <input type="text" id="codigo-productor" placeholder="Ej: 000115">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Datos del Proveedor</h3>
+                    <div class="form-grid two-columns">
+                        <div class="input-group">
+                            <label for="proveedor-nombre">Nombre del Proveedor</label>
+                            <input type="text" id="proveedor-nombre" placeholder="Ej: AGROLINAMAR, S.L.">
+                        </div>
+                        <div class="input-group">
+                            <label for="proveedor-cif">C.I.F.</label>
+                            <input type="text" id="proveedor-cif" placeholder="Ej: B18911727">
+                        </div>
+                        <div class="input-group full-width">
+                            <label for="proveedor-direccion">Dirección</label>
+                            <textarea id="proveedor-direccion" rows="3" placeholder="EL LANCE S/N&#10;RUBITE&#10;18711 GRANADA"></textarea>
+                        </div>
+                         <div class="input-group">
+                            <label for="proveedor-tf">Teléfono</label>
+                            <input type="text" id="proveedor-tf" placeholder="Ej: 958 613 141">
+                        </div>
+                         <div class="input-group">
+                            <label for="proveedor-fax">FAX</label>
+                            <input type="text" id="proveedor-fax" placeholder="Ej: 958 829 624">
+                        </div>
+                         <div class="input-group full-width">
+                            <label for="proveedor-email">Email</label>
+                            <input type="email" id="proveedor-email" placeholder="Ej: administracion@agrolinamar.es">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Detalle de productos recibidos</h3>
+                    <table id="tabla-productos" class="form-table">
+                        <thead>
+                            <tr>
+                                <th>Código</th><th>Descripció</th><th>Envase</th><th>Bultos</th>
+                                <th>Kilos</th><th>Precio</th><th>Importe</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="lista-productos"></tbody>
+                    </table>
+                    <button type="button" id="add-row-btn" class="add-row-button">+ Añadir producto</button>
+                </div>
+            </form>
+            
+            <div class="action-buttons">
+                <button id="imprimir-btn">🖨️ Imprimir</button>
+                <button id="descargar-btn">📥 Descargar PDF</button>
+            </div>
+        </div>
+
+        <div class="preview-container">
+            <div id="pdf-content">
+                <header class="pdf-header">
+                    <h1>ENTRADA DE PRODUCTOS</h1>
+                    <div class="pdf-header-box">
+                        <strong>ALBARAN Nº</strong> <span id="pdf-albaran-numero"></span>
+                        <hr>
+                        <strong>de Fecha</strong> <span id="pdf-fecha"></span>
+                    </div>
+                </header>
+
+                <main class="pdf-main">
+                    <section class="pdf-supplier">
+                        <p id="pdf-proveedor-nombre"></p>
+                        <div id="pdf-proveedor-direccion"></div>
+                        <p>C.I.F. <span id="pdf-proveedor-cif"></span></p>
+                        <p>Tf <span id="pdf-proveedor-tf"></span> - FAX <span id="pdf-proveedor-fax"></span></p>
+                        <p>email <span id="pdf-proveedor-email"></span></p>
+                    </section>
+
+                    <section class="pdf-receiver">
+                        <div class="receiver-header">Datos del Labrador</div>
+                        <div class="receiver-content">
+                            <p><strong>FUTBOL CLUB JR, S.L</strong></p>
+                            <p>CALLE PLAY NUM18 PLANTA AT</p>
+                            <p>EL EJIDO</p>
+                            <p>04715 ALMERIA</p>
+                            <p>B44617520 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Cod.Pr. <span id="pdf-codigo-productor"></span></p>
+                        </div>
+                    </section>
+                </main>
+
+                <table class="pdf-items-table">
+                    <thead>
+                        <tr>
+                            <th>Código</th><th>Descripció</th><th>Envase</th><th>Bultos</th>
+                            <th>Kilos</th><th>Precio</th><th>Importe</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pdf-lista-productos"></tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="3" class="totals-label">TOTALES....</td>
+                            <td id="pdf-total-bultos">0,00</td>
+                            <td id="pdf-total-kilos">0,00</td>
+                            <td></td>
+                            <td id="pdf-total-importe">0,00</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <button id="mobile-preview-btn" class="mobile-preview-button">👁️ Previsualizar</button>
+    <div id="preview-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button id="modal-close-btn" class="modal-close-button">&times;</button>
+            <div id="modal-pdf-content"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

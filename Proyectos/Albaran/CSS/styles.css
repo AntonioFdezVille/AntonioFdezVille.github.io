@@ -1,0 +1,144 @@
+/* --- ESTILOS GENERALES (CSS) --- */
+
+:root {
+    --color-fondo: #f4f4f4;
+    --color-texto: #333;
+    --color-tarjeta: #ffffff;
+    --color-sombra: rgba(0, 0, 0, 0.1);
+    --color-entrada: #28a745; /* Verde campo */
+    --color-salida: #fd7e14;  /* Naranja cosecha */
+    --color-factura: #007bff; /* Azul corporativo */
+    --border-radius: 15px;
+    --transition-speed: 0.3s;
+}
+
+body {
+    margin: 0;
+    font-family: 'Lato', sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    text-align: center;
+}
+
+/* --- ENCABEZADO Y TÍTULO --- */
+.header {
+    padding: 2rem 1rem;
+    background-color: var(--color-tarjeta);
+    border-bottom: 1px solid #ddd;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+.header p {
+    margin: 0.5rem 0 0;
+    font-size: 1.2rem;
+    color: #6c757d;
+}
+
+/* --- CONTENEDOR PRINCIPAL DE TARJETAS --- */
+.main-container {
+    display: flex;
+    justify-content: center;
+    align-items: stretch; /* Asegura que todas las tarjetas tengan la misma altura */
+    gap: 2rem;
+    padding: 3rem 1rem;
+    flex-wrap: wrap; /* Permite que las tarjetas se reorganicen */
+}
+
+/* --- ESTILO DE LAS TARJETAS INTERACTIVAS --- */
+.doc-card {
+    background-color: var(--color-tarjeta);
+    border: 1px solid #e0e0e0;
+    border-top: 5px solid transparent; /* Espacio para el borde de color en hover */
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    width: 300px;
+    box-shadow: 0 4px 15px var(--color-sombra);
+    transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease, border-top-color var(--transition-speed) ease;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+/* Animación de entrada */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.doc-card .icon {
+    margin-bottom: 1.5rem;
+    transition: transform var(--transition-speed) ease;
+}
+
+.doc-card .icon svg {
+    width: 60px;
+    height: 60px;
+    fill: var(--color-texto); /* Color por defecto del icono */
+    transition: fill var(--transition-speed) ease;
+}
+
+.doc-card h2 {
+    font-size: 1.8rem;
+    margin: 0 0 0.5rem;
+}
+
+.doc-card p {
+    font-size: 1rem;
+    color: #6c757d;
+    line-height: 1.5;
+    flex-grow: 1; /* Permite que el párrafo crezca para alinear los pies de página */
+}
+
+/* --- EFECTOS INTERACTIVOS (HOVER & ACTIVE) --- */
+.doc-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+.doc-card:hover .icon {
+    transform: scale(1.1);
+}
+
+/* Colores específicos al hacer hover */
+.card-entrada:hover .icon svg { fill: var(--color-entrada); }
+.card-salida:hover .icon svg { fill: var(--color-salida); }
+.card-factura:hover .icon svg { fill: var(--color-factura); }
+
+.card-entrada:hover { border-top-color: var(--color-entrada); }
+.card-salida:hover { border-top-color: var(--color-salida); }
+.card-factura:hover { border-top-color: var(--color-factura); }
+
+/* Efecto al hacer clic */
+.doc-card:active {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* --- DISEÑO RESPONSIVE PARA MÓVILES --- */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2rem;
+    }
+
+    .main-container {
+        flex-direction: column;
+        align-items: center;
+        padding: 2rem 1rem;
+    }
+
+    .doc-card {
+        width: 90%;
+        max-width: 400px;
+    }
+}

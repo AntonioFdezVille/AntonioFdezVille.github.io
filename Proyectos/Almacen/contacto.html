@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - HortoFresh</title>
+    <meta name="description" content="Contacta con el equipo de HortoFresh. Estamos listos para atender tus pedidos y resolver cualquier duda.">
+    
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/png" href="Fotos/logosin.ico">
+</head>
+<body>
+
+    <header class="header">
+        <nav class="nav-bar container">
+            <a href="index.html" class="logo">
+    <img src="Fotos/logosin.png" alt="Logo de HortoFresh" class="logo-img">
+    Horto<span>Fresh</span>
+</a>
+            <div class="nav-links">
+                <a href="index.html">Inicio</a>
+                <a href="productos.html">Productos</a>
+                <a href="contacto.html" class="active">Contacto</a>
+            </div>
+            <button class="nav-toggle" aria-label="Abrir menú">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container page-content">
+        <div class="section-title animate-on-scroll">
+            <h1>Hablemos</h1>
+            <p>Estamos listos para atender tus pedidos y resolver cualquier duda. Contacta con nuestro equipo.</p>
+        </div>
+
+        <div class="contact-layout">
+            <div class="contact-form-container animate-on-scroll">
+                <h3>Escríbenos un mensaje</h3>
+                
+                <form action="https://formspree.io/f/xyzprybr" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <label for="name">Tu Nombre</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Tu Correo Electrónico</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">Asunto</label>
+                        <input type="text" id="subject" name="subject" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Mensaje</label>
+                        <textarea id="message" name="message" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enviar Consulta</button>
+                </form>
+                </div>
+            
+            <aside class="contact-details animate-on-scroll">
+                <h3>Información Directa</h3>
+                <div class="info-block">
+                    <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="info-text">
+                        <strong>Dirección</strong>
+                        <p>Pol. Ind. La Esperanza, Parcela 28<br>12345, Ciudad Real, España</p>
+                    </div>
+                </div>
+                 <div class="info-block">
+                    <div class="info-icon"><i class="fas fa-phone"></i></div>
+                    <div class="info-text">
+                        <strong>Teléfono</strong>
+                        <p><a href="tel:+34912345678">+34 123 456 789</a></p>
+                    </div>
+                </div>
+                 <div class="info-block">
+                    <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                    <div class="info-text">
+                        <strong>Email</strong>
+                        <p><a href="mailto:pedidos@hortofresh.com">pedidos@hortofresh.com</a></p>
+                    </div>
+                </div>
+                <div class="map-container">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3102.738021021704!2d-3.921696684648662!3d38.98703797955674!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd6bc3e2ef9a8a7b%3A0x2a3aa5e4d1b7a63a!2sPlaza%20Mayor%2C%20Ciudad%20Real!5e0!3m2!1ses!2ses!4v1668524419830!5m2!1ses!2ses" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    
+    <footer class="footer">
+        <div class="container">
+            <p>© 2025 HortoFresh.</p>
+            <p>Diseñado y desarrollado por Antonio Fernández Villegas © 2025</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+                <a href="#"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="JS/script.js"></script>
+</body>
+</html>
+
+

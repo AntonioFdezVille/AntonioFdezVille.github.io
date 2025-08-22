@@ -40,15 +40,49 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // ---- VALIDACIÓN DEL FORMULARIO DE CONTACTO ----
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(event) {
-            event.preventDefault();
-            // Lógica del formulario aquí (la misma que antes si quieres)
-            console.log('Formulario enviado (simulación)');
-            // Puedes añadir aquí un mensaje de "Enviado con éxito"
+   // ---- GESTIÓN DEL ENVÍO DEL FORMULARIO CON AJAX ----
+const contactForm = document.getElementById('contact-form');
+const formMessage = document.getElementById('form-message'); // Asegúrate de tener este <p> en tu HTML
+
+async function handleSubmit(event) {
+    event.preventDefault(); // Evita que el navegador recargue la página
+    const form = event.target;
+    const data = new FormData(form);
+
+    try {
+        const response = await fetch(form.action, {
+            method: form.method,
+            body: data,
+            headers: {
+                'Accept': 'application/json'
+            }
         });
+
+        if (response.ok) {
+            // Si el envío fue exitoso
+            formMessage.textContent = "¡Gracias por tu mensaje! Ha sido enviado correctamente.";
+            formMessage.className = 'form-message success'; // Aplica estilos de éxito
+            form.reset(); // Limpia el formulario
+        } else {
+            // Si hubo un error en el servidor
+            const responseData = await response.json();
+            if (Object.hasOwn(responseData, 'errors')) {
+                formMessage.textContent = responseData["errors"].map(error => error["message"]).join(", ");
+            } else {
+                formMessage.textContent = "Oops! Hubo un problema al enviar tu formulario.";
+            }
+            formMessage.className = 'form-message error'; // Aplica estilos de error
+        }
+    } catch (error) {
+        // Si hubo un error de red
+        formMessage.textContent = "Oops! Hubo un problema de conexión.";
+        formMessage.className = 'form-message error';
     }
+}
+
+if (contactForm) {
+    contactForm.addEventListener("submit", handleSubmit);
+}
+
 
 });

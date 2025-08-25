@@ -212,4 +212,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('pedido-page')) {
         displayCartItems();
     }
+
 });
+
+// --- LÓGICA PARA FORMULARIO DE PEDIDO CONDICIONAL ---
+    const radioDomicilio = document.getElementById('radio-domicilio');
+    const radioRecoger = document.getElementById('radio-recoger');
+    const domicilioFields = document.getElementById('domicilio-fields');
+    const addressInput = document.getElementById('address');
+
+    const toggleDomicilioFields = () => {
+        if (!radioDomicilio || !radioRecoger || !domicilioFields || !addressInput) return; // Salir si los elementos no existen
+        
+        if (radioRecoger.checked) {
+            domicilioFields.style.display = 'none';
+            addressInput.required = false; // El campo de dirección NO es obligatorio
+        } else {
+            domicilioFields.style.display = 'block';
+            addressInput.required = true; // El campo de dirección SÍ es obligatorio
+        }
+    };
+
+    if (radioDomicilio) {
+        radioDomicilio.addEventListener('change', toggleDomicilioFields);
+    }
+    if (radioRecoger) {
+        radioRecoger.addEventListener('change', toggleDomicilioFields);
+    }
+
+    // Ejecutar al cargar la página para establecer el estado inicial correcto
+    toggleDomicilioFields();

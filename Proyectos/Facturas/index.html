@@ -10,10 +10,12 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- PANTALLA DE LOGIN -->
     <div id="login-container">
         <div class="panel login-box">
             <img src="Fotos/logo.jpg" alt="Logo de Limpiezas Ainara" class="logo-image">
@@ -33,9 +35,12 @@
         </div>
     </div>
 
+    <!-- APLICACIÓN PRINCIPAL -->
     <div id="app-container">
         <aside class="sidebar">
-            <img src="Fotos/logo.jpg" alt="Logo de Limpiezas Ainara" class="logo-image sidebar-logo">
+            <div class="sidebar-header">
+                <img src="Fotos/logo.jpg" alt="Logo de Limpiezas Ainara" class="sidebar-logo">
+            </div>
             <nav class="menu">
                 <a href="#" class="menu-item active" data-view="vista-facturas"><i class='bx bxs-file-blank'></i> Facturas</a>
                 <a href="#" class="menu-item" data-view="vista-clientes"><i class='bx bxs-user-detail'></i> Clientes</a>
@@ -48,28 +53,34 @@
         </aside>
 
         <main class="content">
+            <!-- VISTA LISTADO DE FACTURAS -->
             <div id="vista-facturas" class="view active">
                 <div class="view-header">
                     <h1>Mis Facturas</h1>
+                    <!-- Botón de hamburguesa para móvil -->
+                    <button id="hamburger-btn" class="hamburger-btn"><i class='bx bx-menu'></i></button>
                     <button id="btn-nueva-factura" class="btn"><i class='bx bx-plus'></i> Crear Nueva Factura</button>
                 </div>
                 <div class="panel">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Nº Factura</th>
-                                <th>Cliente</th>
-                                <th>Fecha</th>
-                                <th>Total</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tabla-facturas-body"></tbody>
-                    </table>
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nº Factura</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-facturas-body"></tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 
+            <!-- VISTA GESTIÓN DE CLIENTES -->
             <div id="vista-clientes" class="view">
                 <div class="view-header"><h1>Mis Clientes</h1></div>
                 <div class="clientes-layout">
@@ -89,24 +100,66 @@
                     </div>
                     <div class="panel">
                         <h3>Listado de Clientes</h3>
-                        <table class="data-table">
-                            <thead><tr><th>Nombre</th><th>NIF/CIF</th><th>Acciones</th></tr></thead>
-                            <tbody id="tabla-clientes-body"></tbody>
-                        </table>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead><tr><th>Nombre</th><th>NIF/CIF</th><th>Acciones</th></tr></thead>
+                                <tbody id="tabla-clientes-body"></tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
 
+            <!-- VISTA CREAR/EDITAR FACTURA -->
             <div id="vista-crear-factura" class="view">
-                </div>
+                <div class="view-header"><h1 id="formulario-factura-titulo">Crear Nueva Factura</h1></div>
+                 <div class="panel">
+                    <form id="form-factura">
+                        <input type="hidden" id="factura-id">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="factura-selector-cliente">Seleccionar Cliente</label>
+                                <select id="factura-selector-cliente" required></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Nº Factura:</label>
+                                <input type="text" id="factura-numero" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Fecha:</label>
+                                <input type="date" id="factura-fecha" required>
+                            </div>
+                        </div>
+                        <hr>
+                        <h3>Conceptos</h3>
+                        <div class="table-wrapper">
+                            <table class="data-table">
+                                <thead><tr><th>Descripción</th><th>Cantidad</th><th>Precio (€)</th><th>Total</th><th></th></tr></thead>
+                                <tbody id="cuerpo-tabla-items"></tbody>
+                            </table>
+                        </div>
+                        <button type="button" id="btn-anadir-linea" class="btn btn-secundario" style="width: auto; padding: 8px 15px; margin-top:10px;"><i class='bx bx-plus'></i> Añadir Concepto</button>
+                        
+                        <div class="resumen-factura">
+                            <div id="subtotal">Subtotal: 0.00 €</div>
+                            <div id="iva">IVA (21%): 0.00 €</div>
+                            <div id="total-final">TOTAL: 0.00 €</div>
+                        </div>
 
-            <div id="vista-guia-app" class="view">
-                <div class="view-header">
-                    <h1>Instalar como Aplicación</h1>
+                        <hr>
+                        <div class="acciones-formulario">
+                            <button type="submit" class="btn"><i class='bx bx-save'></i> Guardar Factura</button>
+                            <button type="button" id="btn-cancelar-factura" class="btn btn-secundario">Cancelar</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
+
+            <!-- VISTA GUÍA PARA INSTALAR APP -->
+            <div id="vista-guia-app" class="view">
+                <div class="view-header"><h1>Instalar como Aplicación</h1></div>
                 <div class="panel">
                     <p>Puedes instalar este gestor de facturas en tu ordenador o móvil para acceder a él directamente desde tu escritorio, como si fuera una aplicación normal.</p>
-                    
                     <div class="guia-layout">
                         <div class="guia-paso">
                             <h3><i class='bx bx-desktop'></i> En Ordenador (Chrome / Edge)</h3>
@@ -115,7 +168,7 @@
                                 <li>Haz clic en él.</li>
                                 <li>Selecciona <strong>"Instalar"</strong> en la ventana que aparece.</li>
                             </ol>
-                            <img src="https://i.imgur.com/bB6163J.png" alt="Guía de instalación en ordenador" class="guia-imagen">
+                            
                         </div>
                         <div class="guia-paso">
                             <h3><i class='bx bx-mobile-alt'></i> En Móvil (Android / iOS)</h3>
@@ -124,37 +177,43 @@
                                 <li>Toca el botón de <strong>Menú</strong> (⋮) o de <strong>Compartir</strong> (↑).</li>
                                 <li>Busca y selecciona la opción <strong>"Instalar aplicación"</strong> o <strong>"Añadir a pantalla de inicio"</strong>.</li>
                             </ol>
-                             <img src="https://i.imgur.com/3Qp5e3g.png" alt="Guía de instalación en móvil" class="guia-imagen">
+                             
                         </div>
                     </div>
                 </div>
             </div>
-
         </main>
     </div>
 
+    <!-- MODAL PARA PREVISUALIZACIÓN DE PDF -->
     <div id="pdf-preview-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Previsualización de Factura</h2>
+                <button id="btn-cerrar-modal" class="close-button">&times;</button>
+            </div>
+            <div class="modal-body">
+                <iframe id="pdf-iframe"></iframe>
+            </div>
+            <div class="modal-footer">
+                <button id="btn-imprimir-pdf" class="btn btn-secundario"><i class='bx bx-printer'></i> Imprimir</button>
+                <button id="btn-descargar-pdf" class="btn"><i class='bx bx-download'></i> Descargar</button>
+            </div>
         </div>
+    </div>
+    
+    <!-- Overlay para el menú en móvil -->
+    <div id="overlay"></div>
+    
+    <img id="logo-para-pdf" src="Fotos/logo.jpg" style="display: none;" alt="Logo para PDF">
     
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    <img id="logo-para-pdf" src="Fotos/logo.jpg" style="display: none;" alt="Logo para PDF">
     
     <script src="script.js"></script>
-
-    <script>
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/sw.js').then(registration => {
-                    console.log('ServiceWorker registrado con éxito: ', registration.scope);
-                }, err => {
-                    console.log('El registro de ServiceWorker falló: ', err);
-                });
-            });
-        }
-    </script>
 </body>
 </html>
+

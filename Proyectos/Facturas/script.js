@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-
     // --- CONFIGURACIÓN DE FIREBASE ---
-    // ¡ASEGÚRATE DE QUE ESTAS SON TUS CLAVES REALES!
     const firebaseConfig = {
         apiKey: "AIzaSyB0HJ4sfXG9dOx-VcvwMx6P_b99DIZYGWQ",
         authDomain: "limpiezas-ainara.firebaseapp.com",
@@ -17,9 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const db = firebase.firestore();
     let currentUser = null;
     let clientesCache = {};
-    let pdfBlob = null; // Variable global para el PDF generado
+    let pdfBlob = null;
 
     // --- ELEMENTOS DEL DOM ---
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const sidebar = document.querySelector('.sidebar');
+    const overlay = document.getElementById('overlay');
     const loginContainer = document.getElementById('login-container');
     const appContainer = document.getElementById('app-container');
     const loginForm = document.getElementById('login-form');
@@ -40,13 +41,33 @@ document.addEventListener('DOMContentLoaded', () => {
     const selectorClienteFactura = document.getElementById('factura-selector-cliente');
     const btnAnadirLinea = document.getElementById('btn-anadir-linea');
     const cuerpoTablaItems = document.getElementById('cuerpo-tabla-items');
-    
-    // Elementos del Modal
     const modal = document.getElementById('pdf-preview-modal');
     const btnCerrarModal = document.getElementById('btn-cerrar-modal');
     const iframe = document.getElementById('pdf-iframe');
     const btnImprimirPDF = document.getElementById('btn-imprimir-pdf');
     const btnDescargarPDF = document.getElementById('btn-descargar-pdf');
+
+    // --- LÓGICA DEL MENÚ HAMBURGUESA ---
+    function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('active');
+    }
+
+    hamburgerBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('active');
+    });
+
+    overlay.addEventListener('click', closeMenu);
+
+    menuItems.forEach(item => {
+        item.addEventListener('click', () => {
+            // Se cierra el menú al seleccionar una opción, útil para móvil
+            if (sidebar.classList.contains('open')) {
+                closeMenu();
+            }
+        });
+    });
 
     // --- AUTENTICACIÓN ---
     auth.onAuthStateChanged(user => {
@@ -55,6 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
             userEmailDisplay.textContent = user.email;
             loginContainer.style.display = 'none';
             appContainer.classList.add('visible');
+            mostrarVista('vista-facturas'); // Se asegura que la vista inicial coloque el botón a la izquierda
             cargarDatosIniciales();
         } else {
             currentUser = null;
@@ -81,6 +103,11 @@ document.addEventListener('DOMContentLoaded', () => {
         menuItems.forEach(item => {
             item.classList.toggle('active', item.dataset.view === idVista);
         });
+        // Mover el botón de hamburguesa a la cabecera de la vista activa
+        const activeViewHeader = document.querySelector(`#${idVista} .view-header`);
+        if (activeViewHeader) {
+            activeViewHeader.insertBefore(hamburgerBtn, activeViewHeader.firstChild);
+        }
     }
 
     menuItems.forEach(item => {
@@ -100,7 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarVista('vista-crear-factura');
     });
     
-    btnCancelarFactura.addEventListener('click', () => mostrarVista('vista-facturas'));
+    if(btnCancelarFactura) {
+        btnCancelarFactura.addEventListener('click', () => mostrarVista('vista-facturas'));
+    }
     
     // --- GESTIÓN DE CLIENTES ---
     async function cargarClientes() {
@@ -122,59 +151,66 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    formCliente.addEventListener('submit', async e => {
-        e.preventDefault();
-        const clienteId = clienteIdInput.value;
-        const datosCliente = {
-            nombre: e.target.elements['cliente-nombre'].value,
-            nif: e.target.elements['cliente-nif'].value,
-            email: e.target.elements['cliente-email'].value,
-            direccion: e.target.elements['cliente-direccion'].value,
-            userId: currentUser.uid
-        };
-        if (clienteId) {
-            await db.collection("clientes").doc(clienteId).update(datosCliente);
-            alert("Cliente actualizado");
-        } else {
-            await db.collection("clientes").add(datosCliente);
-            alert("Cliente añadido");
-        }
-        formCliente.reset();
-        clienteIdInput.value = '';
-        clienteFormTitulo.textContent = 'Añadir Nuevo Cliente';
-        btnCancelarEdicionCliente.style.display = 'none';
-        await cargarClientes();
-    });
-
-    tablaClientesBody.addEventListener('click', async e => {
-        const target = e.target.closest('button');
-        if (!target) return;
-        const id = target.dataset.id;
-        if (target.classList.contains('delete')) {
-            if (confirm("¿Seguro que quieres eliminar este cliente?")) {
-                await db.collection("clientes").doc(id).delete();
+    if(formCliente){
+        formCliente.addEventListener('submit', async e => {
+            e.preventDefault();
+            const clienteId = clienteIdInput.value;
+            const datosCliente = {
+                nombre: e.target.elements['cliente-nombre'].value,
+                nif: e.target.elements['cliente-nif'].value,
+                email: e.target.elements['cliente-email'].value,
+                direccion: e.target.elements['cliente-direccion'].value,
+                userId: currentUser.uid
+            };
+            try {
+                if (clienteId) {
+                    await db.collection("clientes").doc(clienteId).update(datosCliente);
+                } else {
+                    await db.collection("clientes").add(datosCliente);
+                }
+                formCliente.reset();
+                clienteIdInput.value = '';
+                clienteFormTitulo.textContent = 'Añadir Nuevo Cliente';
+                btnCancelarEdicionCliente.style.display = 'none';
                 await cargarClientes();
-                alert("Cliente eliminado.");
+            } catch(error) {
+                console.error("Error guardando cliente: ", error);
             }
-        }
-        if (target.classList.contains('edit')) {
-            const cliente = clientesCache[id];
-            clienteIdInput.value = id;
-            document.getElementById('cliente-nombre').value = cliente.nombre;
-            document.getElementById('cliente-nif').value = cliente.nif;
-            document.getElementById('cliente-email').value = cliente.email;
-            document.getElementById('cliente-direccion').value = cliente.direccion;
-            clienteFormTitulo.textContent = 'Editar Cliente';
-            btnCancelarEdicionCliente.style.display = 'inline-flex';
-        }
-    });
+        });
+    }
 
-    btnCancelarEdicionCliente.addEventListener('click', () => {
-        formCliente.reset();
-        clienteIdInput.value = '';
-        clienteFormTitulo.textContent = 'Añadir Nuevo Cliente';
-        btnCancelarEdicionCliente.style.display = 'none';
-    });
+    if(tablaClientesBody){
+        tablaClientesBody.addEventListener('click', async e => {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const id = target.dataset.id;
+            if (target.classList.contains('delete')) {
+                if (confirm("¿Seguro que quieres eliminar este cliente?")) {
+                    await db.collection("clientes").doc(id).delete();
+                    await cargarClientes();
+                }
+            }
+            if (target.classList.contains('edit')) {
+                const cliente = clientesCache[id];
+                clienteIdInput.value = id;
+                document.getElementById('cliente-nombre').value = cliente.nombre;
+                document.getElementById('cliente-nif').value = cliente.nif;
+                document.getElementById('cliente-email').value = cliente.email;
+                document.getElementById('cliente-direccion').value = cliente.direccion;
+                clienteFormTitulo.textContent = 'Editar Cliente';
+                btnCancelarEdicionCliente.style.display = 'inline-flex';
+            }
+        });
+    }
+
+    if(btnCancelarEdicionCliente){
+        btnCancelarEdicionCliente.addEventListener('click', () => {
+            formCliente.reset();
+            clienteIdInput.value = '';
+            clienteFormTitulo.textContent = 'Añadir Nuevo Cliente';
+            btnCancelarEdicionCliente.style.display = 'none';
+        });
+    }
     
     // --- GESTIÓN DE FACTURAS ---
     async function cargarFacturas() {
@@ -190,101 +226,109 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    formFactura.addEventListener('submit', async e => {
-        e.preventDefault();
-        const facturaId = facturaIdInput.value;
-        const items = [];
-        let subtotal = 0;
-        document.querySelectorAll('#cuerpo-tabla-items tr').forEach(tr => {
-            const descripcion = tr.querySelector('.descripcion').value;
-            const cantidad = parseFloat(tr.querySelector('.cantidad').value) || 0;
-            const precio = parseFloat(tr.querySelector('.precio').value) || 0;
-            if (descripcion && cantidad > 0) {
-                const totalLinea = cantidad * precio;
-                items.push({ descripcion, cantidad, precio, total: totalLinea });
-                subtotal += totalLinea;
+    if(formFactura){
+        formFactura.addEventListener('submit', async e => {
+            e.preventDefault();
+            const facturaId = facturaIdInput.value;
+            const items = [];
+            let subtotal = 0;
+            document.querySelectorAll('#cuerpo-tabla-items tr').forEach(tr => {
+                const descripcion = tr.querySelector('.descripcion').value;
+                const cantidad = parseFloat(tr.querySelector('.cantidad').value) || 0;
+                const precio = parseFloat(tr.querySelector('.precio').value) || 0;
+                if (descripcion && cantidad > 0) {
+                    const totalLinea = cantidad * precio;
+                    items.push({ descripcion, cantidad, precio, total: totalLinea });
+                    subtotal += totalLinea;
+                }
+            });
+            if (items.length === 0) {
+                alert("Debes añadir al menos un concepto.");
+                return;
+            }
+            const iva = subtotal * 0.21;
+            const total = subtotal + iva;
+            const datosFactura = {
+                numero: e.target.elements['factura-numero'].value,
+                fecha: e.target.elements['factura-fecha'].value,
+                clienteId: e.target.elements['factura-selector-cliente'].value,
+                items, subtotal, iva, total,
+                estado: 'pendiente',
+                userId: currentUser.uid
+            };
+            if (facturaId) {
+                await db.collection("facturas").doc(facturaId).update(datosFactura);
+            } else {
+                await db.collection("facturas").add(datosFactura);
+            }
+            await cargarFacturas();
+            mostrarVista('vista-facturas');
+        });
+    }
+
+    if(tablaFacturasBody){
+        tablaFacturasBody.addEventListener('click', async e => {
+            const target = e.target.closest('button');
+            if (!target) return;
+            const id = target.dataset.id;
+            if (target.classList.contains('delete')) {
+                if (confirm("¿Seguro que quieres eliminar esta factura?")) {
+                    await db.collection("facturas").doc(id).delete();
+                    await cargarFacturas();
+                }
+            }
+            if (target.classList.contains('edit')) {
+                const docSnap = await db.collection("facturas").doc(id).get();
+                if (docSnap.exists) {
+                    const factura = docSnap.data();
+                    facturaIdInput.value = id;
+                    document.getElementById('factura-numero').value = factura.numero;
+                    document.getElementById('factura-fecha').value = factura.fecha;
+                    selectorClienteFactura.value = factura.clienteId;
+                    cuerpoTablaItems.innerHTML = '';
+                    factura.items.forEach(item => crearNuevaLineaItem(item));
+                    calcularTotalesFactura();
+                    document.getElementById('formulario-factura-titulo').textContent = 'Editar Factura';
+                    mostrarVista('vista-crear-factura');
+                }
+            }
+            if (target.classList.contains('preview')) {
+                const docSnap = await db.collection("facturas").doc(id).get();
+                if (docSnap.exists) {
+                    await generarYMostrarPDF(docSnap.data());
+                }
             }
         });
-        if (items.length === 0) return alert("Debes añadir al menos un concepto.");
-        const iva = subtotal * 0.21;
-        const total = subtotal + iva;
-        const datosFactura = {
-            numero: e.target.elements['factura-numero'].value,
-            fecha: e.target.elements['factura-fecha'].value,
-            clienteId: e.target.elements['factura-selector-cliente'].value,
-            items, subtotal, iva, total,
-            estado: 'pendiente',
-            userId: currentUser.uid
-        };
-        if (facturaId) {
-            await db.collection("facturas").doc(facturaId).update(datosFactura);
-            alert("Factura actualizada");
-        } else {
-            await db.collection("facturas").add(datosFactura);
-            alert("Factura guardada");
-        }
-        await cargarFacturas();
-        mostrarVista('vista-facturas');
-    });
-
-    tablaFacturasBody.addEventListener('click', async e => {
-        const target = e.target.closest('button');
-        if (!target) return;
-        const id = target.dataset.id;
-        if (target.classList.contains('delete')) {
-            if (confirm("¿Seguro que quieres eliminar esta factura?")) {
-                await db.collection("facturas").doc(id).delete();
-                await cargarFacturas();
-                alert("Factura eliminada.");
-            }
-        }
-        if (target.classList.contains('edit')) {
-            const docSnap = await db.collection("facturas").doc(id).get();
-            if (docSnap.exists) {
-                const factura = docSnap.data();
-                facturaIdInput.value = id;
-                document.getElementById('factura-numero').value = factura.numero;
-                document.getElementById('factura-fecha').value = factura.fecha;
-                selectorClienteFactura.value = factura.clienteId;
-                cuerpoTablaItems.innerHTML = '';
-                factura.items.forEach(item => crearNuevaLineaItem(item));
-                calcularTotalesFactura();
-                document.getElementById('formulario-factura-titulo').textContent = 'Editar Factura';
-                mostrarVista('vista-crear-factura');
-            }
-        }
-        if (target.classList.contains('preview')) {
-            const docSnap = await db.collection("facturas").doc(id).get();
-            if (docSnap.exists) {
-                await generarYMostrarPDF(docSnap.data());
-            }
-        }
-    });
+    }
 
     function crearNuevaLineaItem(item = null) {
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td><input type="text" class="descripcion" required value="${item ? item.descripcion : ''}"></td><td><input type="number" class="cantidad" value="${item ? item.cantidad : '1'}" min="0" step="any" required></td><td><input type="number" class="precio" value="${item ? item.precio.toFixed(2) : '0.00'}" step="0.01" required></td><td class="total-linea">${item ? item.total.toFixed(2) : '0.00'} €</td><td class="linea-item-acciones"><button type="button" class="quitar-linea"><i class='bx bx-x-circle'></i></button></td>`;
+        tr.innerHTML = `<td><input type="text" class="descripcion" placeholder="Descripción del servicio" required value="${item ? item.descripcion : ''}"></td><td><input type="number" class="cantidad" value="${item ? item.cantidad : '1'}" min="0" step="any" required></td><td><input type="number" class="precio" value="${item ? item.precio.toFixed(2) : '0.00'}" step="0.01" required></td><td class="total-linea">${item ? item.total.toFixed(2) : '0.00'} €</td><td class="linea-item-acciones"><button type="button" class="quitar-linea" title="Quitar línea"><i class='bx bx-x-circle'></i></button></td>`;
         cuerpoTablaItems.appendChild(tr);
     }
     
-    btnAnadirLinea.addEventListener('click', () => crearNuevaLineaItem());
+    if(btnAnadirLinea) {
+        btnAnadirLinea.addEventListener('click', () => crearNuevaLineaItem());
+    }
 
-    cuerpoTablaItems.addEventListener('input', e => {
-        if(e.target.classList.contains('cantidad') || e.target.classList.contains('precio')) {
-            const tr = e.target.closest('tr');
-            const cantidad = parseFloat(tr.querySelector('.cantidad').value) || 0;
-            const precio = parseFloat(tr.querySelector('.precio').value) || 0;
-            tr.querySelector('.total-linea').textContent = (cantidad * precio).toFixed(2) + ' €';
-            calcularTotalesFactura();
-        }
-    });
-    
-    cuerpoTablaItems.addEventListener('click', e => {
-        if (e.target.closest('.quitar-linea')) {
-            e.target.closest('tr').remove();
-            calcularTotalesFactura();
-        }
-    });
+    if(cuerpoTablaItems){
+        cuerpoTablaItems.addEventListener('input', e => {
+            if(e.target.classList.contains('cantidad') || e.target.classList.contains('precio')) {
+                const tr = e.target.closest('tr');
+                const cantidad = parseFloat(tr.querySelector('.cantidad').value) || 0;
+                const precio = parseFloat(tr.querySelector('.precio').value) || 0;
+                tr.querySelector('.total-linea').textContent = (cantidad * precio).toFixed(2) + ' €';
+                calcularTotalesFactura();
+            }
+        });
+        
+        cuerpoTablaItems.addEventListener('click', e => {
+            if (e.target.closest('.quitar-linea')) {
+                e.target.closest('tr').remove();
+                calcularTotalesFactura();
+            }
+        });
+    }
 
     function calcularTotalesFactura() {
         let subtotal = 0;
@@ -301,187 +345,116 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // --- PDF ---
-   async function generarYMostrarPDF(facturaData) {
+    // Función auxiliar para cargar una imagen y convertirla a Data URL (Base64)
+    function imageToDataUrl(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                canvas.width = this.naturalWidth;
+                canvas.height = this.naturalHeight;
+                ctx.drawImage(this, 0, 0);
+                resolve(canvas.toDataURL('image/jpeg'));
+            };
+            img.onerror = function() {
+                reject(new Error('No se pudo cargar la imagen desde la ruta: ' + url));
+            };
+            img.src = url;
+        });
+    }
+
+    async function generarYMostrarPDF(facturaData) {
         const cliente = clientesCache[facturaData.clienteId];
+        if(!cliente) {
+            alert("No se pueden encontrar los datos del cliente para esta factura.");
+            return;
+        }
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'pt', 'a4');
-
-        // --- FUENTES Y COLORES ---
-        doc.setFont("helvetica", "normal");
-        const primaryColor = "#343a40"; // Gris oscuro casi negro
-        const secondaryColor = "#6c757d"; // Gris claro para detalles
-        const lightGrayBg = "#f8f9fa"; // Fondo gris muy claro para bloques
-        const lineColor = "#dee2e6"; // Color para las líneas finas
-        
-        doc.setTextColor(primaryColor);
-
-        // --- LOGO Y DATOS DE LA EMPRESA ---
-        const logoImg = document.getElementById('logo-para-pdf');
-        let logoHeight = 0; // Iniciaremos la altura del logo en 0
         
         try {
-            const canvas = document.createElement('canvas');
-            canvas.width = logoImg.naturalWidth;
-            canvas.height = logoImg.naturalHeight;
-            const ctx = canvas.getContext('2d');
-            ctx.drawImage(logoImg, 0, 0);
-            const dataUrl = canvas.toDataURL('image/png');
-
-            // Calcular el alto proporcionalmente para que no se deforme
-            const logoWidth = 90; // Ancho fijo en el PDF
-            logoHeight = (logoImg.naturalHeight / logoImg.naturalWidth) * logoWidth;
-            doc.addImage(dataUrl, 'PNG', 40, 40, logoWidth, logoHeight); // Posición y tamaño del logo
+            const logoDataUrl = await imageToDataUrl('Fotos/logo.jpg');
+            const logoWidth = 90;
+            const imgProps = doc.getImageProperties(logoDataUrl);
+            const logoHeight = (imgProps.height * logoWidth) / imgProps.width;
+            doc.addImage(logoDataUrl, 'JPEG', 40, 40, logoWidth, logoHeight);
         } catch (e) {
-            console.error("Error al cargar logo en PDF:", e);
-            doc.setFontSize(16);
-            doc.setFont("helvetica", "bold");
+            console.error("No se pudo cargar la imagen del logo para el PDF.", e);
+            // Fallback: si la imagen no carga, se pone el nombre de la empresa como texto
+            doc.setFont("helvetica", "bold"); 
+            doc.setFontSize(20); 
             doc.text("Limpiezas Ainara", 40, 50);
-            logoHeight = 20; // Asignamos una altura por defecto si el logo falla
         }
         
-        // --- CÁLCULO DE POSICIÓN DINÁMICA ---
-        // Aquí está la corrección: el texto empieza siempre después del logo
-        let currentY = 40 + logoHeight + 15; // Posición inicial debajo del logo + un margen
-
+        doc.setFontSize(26); doc.setFont("helvetica", "bold"); doc.text("FACTURA", 555, 60, { align: 'right' });
+        doc.setFontSize(11); doc.setFont("helvetica", "normal");
+        doc.text(`Nº Factura: ${facturaData.numero}`, 555, 80, { align: 'right' });
+        doc.text(`Fecha: ${new Date(facturaData.fecha).toLocaleDateString()}`, 555, 95, { align: 'right' });
+        
+        let y = 150;
         doc.setFontSize(10);
-        doc.setFont("helvetica", "normal");
-        doc.text("Limpiezas Ainara", 40, currentY);
-        doc.text("Tu NIF/CIF", 40, currentY += 12);
-        doc.text("Tu Dirección, Granada", 40, currentY += 12);
-        doc.text("Tu Email", 40, currentY += 12);
-        doc.text("Tu Teléfono", 40, currentY += 12);
-
-        // --- ENCABEZADO "FACTURA" Y DATOS DE FACTURA ---
-        doc.setFontSize(28);
-        doc.setFont("helvetica", "bold");
-        doc.text("FACTURA", doc.internal.pageSize.getWidth() - 40, 60, { align: 'right' });
-
-        doc.setFontSize(11);
-        doc.setFont("helvetica", "normal");
-        doc.setTextColor(secondaryColor);
-        doc.text("NÚMERO DE FACTURA:", doc.internal.pageSize.getWidth() - 200, 100);
-        doc.text("FECHA DE EMISIÓN:", doc.internal.pageSize.getWidth() - 200, 115);
+        doc.text("Limpiezas Ainara", 40, y);
+        doc.text("Tu NIF/CIF", 40, y += 15);
+        doc.text("Tu Dirección, Granada", 40, y += 15);
         
-        doc.setTextColor(primaryColor);
-        doc.text(facturaData.numero, doc.internal.pageSize.getWidth() - 40, 100, { align: 'right' });
-        doc.text(new Date(facturaData.fecha).toLocaleDateString(), doc.internal.pageSize.getWidth() - 40, 115, { align: 'right' });
-
-        // --- BLOQUE "FACTURAR A" ---
-        let blockY = Math.max(currentY + 30, 180); // Asegura que no se solape con lo de arriba
-        doc.setFillColor(lightGrayBg);
-        doc.rect(40, blockY - 10, doc.internal.pageSize.getWidth() - 80, 25, 'F');
-        doc.setFont("helvetica", "bold");
-        doc.setTextColor(primaryColor);
-        doc.text("FACTURAR A:", 50, blockY + 5);
+        doc.text("Facturar a:", 300, 150);
+        doc.text(cliente.nombre, 300, 165);
+        if(cliente.nif) doc.text(cliente.nif, 300, 180);
         
-        blockY += 25;
+        y = 240;
+        doc.setFont("helvetica", "bold"); doc.setFillColor(240, 240, 240); doc.rect(40, y - 10, 515, 20, 'F');
+        doc.text("Concepto", 50, y); doc.text("Cant.", 380, y); doc.text("Precio", 440, y); doc.text("Total", 555, y, { align: 'right' });
+        y += 20;
         doc.setFont("helvetica", "normal");
-        doc.text(cliente.nombre, 50, blockY);
-        if (cliente.nif) doc.text(cliente.nif, 50, blockY + 15);
-        if (cliente.direccion) doc.text(cliente.direccion, 50, blockY + 30);
-        if (cliente.email) doc.text(cliente.email, 50, blockY + 45);
-
-        // --- TABLA DE CONCEPTOS ---
-        let tableY = blockY + 80;
-        doc.setFont("helvetica", "bold");
-        doc.setFillColor(primaryColor);
-        doc.setTextColor("#FFFFFF");
-        doc.rect(40, tableY - 10, doc.internal.pageSize.getWidth() - 80, 20, 'F');
-        doc.text("CONCEPTO", 50, tableY + 5);
-        doc.text("CANT.", 380, tableY + 5);
-        doc.text("PRECIO", 430, tableY + 5);
-        doc.text("TOTAL", doc.internal.pageSize.getWidth() - 40, tableY + 5, { align: 'right' });
-        
-        let itemY = tableY + 15;
-        doc.setTextColor(primaryColor);
-        doc.setFont("helvetica", "normal");
-        
         facturaData.items.forEach(item => {
-            doc.setDrawColor(lineColor);
-            doc.setLineWidth(0.5);
-            doc.line(40, itemY - 5, doc.internal.pageSize.getWidth() - 40, itemY - 5);
-            
             const splitTitle = doc.splitTextToSize(item.descripcion, 300);
-            const lineHeight = (splitTitle.length * 12);
-            
-            if (itemY + lineHeight > doc.internal.pageSize.getHeight() - 120) {
-                doc.addPage();
-                itemY = 60;
-            }
-
-            doc.text(splitTitle, 50, itemY + 8);
-            doc.text(item.cantidad.toString(), 385, itemY + 8);
-            doc.text(item.precio.toFixed(2) + ' €', 435, itemY + 8);
-            doc.text(item.total.toFixed(2) + ' €', doc.internal.pageSize.getWidth() - 40, itemY + 8, { align: 'right' });
-            
-            itemY += lineHeight + 15;
+            doc.text(splitTitle, 50, y);
+            doc.text(item.cantidad.toString(), 385, y);
+            doc.text(item.precio.toFixed(2) + ' €', 445, y);
+            doc.text(item.total.toFixed(2) + ' €', 555, y, { align: 'right' });
+            y += (splitTitle.length * 12) + 10;
         });
         
-        doc.setDrawColor(lineColor);
-        doc.setLineWidth(0.5);
-        doc.line(40, itemY - 10, doc.internal.pageSize.getWidth() - 40, itemY - 10);
-
-
-        // --- TOTALES ---
-        let totalsY = itemY + 20;
-        
-        doc.setFontSize(12);
-        doc.setFont("helvetica", "normal");
-        doc.text(`Subtotal:`, 400, totalsY);
-        doc.text(`${facturaData.subtotal.toFixed(2)} €`, doc.internal.pageSize.getWidth() - 40, totalsY, { align: 'right' });
-        totalsY += 20;
-
-        doc.text(`IVA (21%):`, 400, totalsY);
-        doc.text(`${facturaData.iva.toFixed(2)} €`, doc.internal.pageSize.getWidth() - 40, totalsY, { align: 'right' });
-        
-        totalsY += 15;
-        doc.setDrawColor(primaryColor);
-        doc.setLineWidth(1.5);
-        doc.line(400, totalsY, doc.internal.pageSize.getWidth() - 40, totalsY);
-        totalsY += 20;
-        
-        doc.setFont("helvetica", "bold");
-        doc.setFontSize(16);
-        doc.text(`TOTAL:`, 400, totalsY);
-        doc.text(`${facturaData.total.toFixed(2)} €`, doc.internal.pageSize.getWidth() - 40, totalsY, { align: 'right' });
-
-        // --- PIE DE PÁGINA ---
-        const pageHeight = doc.internal.pageSize.getHeight();
-        doc.setFontSize(9);
-        doc.setTextColor(secondaryColor);
-        doc.text("Gracias por su confianza.", 40, pageHeight - 40);
-        
-        // --- MOSTRAR PDF EN EL MODAL ---
         pdfBlob = doc.output('blob');
-        const pdfUrl = URL.createObjectURL(pdfBlob);
-        iframe.src = pdfUrl;
+        iframe.src = URL.createObjectURL(pdfBlob);
         modal.style.display = 'flex';
     }
-    // --- EVENT LISTENERS DEL MODAL (CORREGIDO) ---
-    btnCerrarModal.addEventListener('click', () => {
-        modal.style.display = "none";
-        iframe.src = '';
-        URL.revokeObjectURL(pdfBlob); // Libera memoria
-    });
-    
-    btnDescargarPDF.addEventListener('click', () => {
-        if (!pdfBlob) return;
-        const link = document.createElement('a');
-        link.href = URL.createObjectURL(pdfBlob);
-        link.download = `factura.pdf`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    });
 
-    btnImprimirPDF.addEventListener('click', () => {
-        if (!iframe.src) return;
-        iframe.contentWindow.print();
-    });
+    if(btnCerrarModal){
+        btnCerrarModal.onclick = () => { modal.style.display = "none"; iframe.src = ''; };
+    }
+    if(btnDescargarPDF){
+        btnDescargarPDF.addEventListener('click', () => {
+            if (!pdfBlob) return;
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(pdfBlob);
+            link.download = `factura.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+    if(btnImprimirPDF){
+        btnImprimirPDF.addEventListener('click', () => iframe.contentWindow.print());
+    }
 
     // --- INICIALIZACIÓN ---
     async function cargarDatosIniciales() {
         await cargarClientes();
         await cargarFacturas();
     }
+    
+    // --- Service Worker ---
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js').then(registration => {
+                console.log('ServiceWorker registrado con éxito: ', registration.scope);
+            }, err => {
+                console.log('El registro de ServiceWorker falló: ', err);
+            });
+        });
+    }
 });
+

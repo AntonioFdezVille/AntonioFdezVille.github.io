@@ -1,11 +1,11 @@
 {
-    "name": "Limpiezas Ainara - Facturador",
-    "short_name": "AinaraGes",
+    "name": "Limpiezas Ainara - Facturas",
+    "short_name": "Limpiezas Ainara",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#FDF4F6",
     "theme_color": "#FF69B4",
-    "description": "Un gestor de facturas sencillo para Limpiezas Ainara.",
+    "description": "Gestor de facturas para Limpiezas Ainara.",
     "icons": [
         {
             "src": "iconos/icono-192.png",

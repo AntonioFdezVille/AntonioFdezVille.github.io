@@ -15,7 +15,6 @@
 </head>
 <body>
 
-    <!-- PANTALLA DE LOGIN -->
     <div id="login-container">
         <div class="panel login-box">
             <img src="Fotos/logo.jpg" alt="Logo de Limpiezas Ainara" class="logo-image">
@@ -27,15 +26,19 @@
                 </div>
                 <div class="form-group">
                     <label for="login-password">Contraseña</label>
-                    <input type="password" id="login-password" required>
+                    <div class="password-wrapper">
+                        <input type="password" id="login-password" required>
+                        <i class='bx bx-show' id="toggle-password"></i>
+                    </div>
                 </div>
                 <button type="submit" class="btn">Acceder</button>
                 <p id="login-error" class="error-mensaje"></p>
+                <p id="login-success" class="success-mensaje"></p>
+                <a href="#" id="forgot-password-link" class="forgot-password">He olvidado la contraseña</a>
             </form>
         </div>
     </div>
 
-    <!-- APLICACIÓN PRINCIPAL -->
     <div id="app-container">
         <aside class="sidebar">
             <div class="sidebar-header">
@@ -43,6 +46,8 @@
             </div>
             <nav class="menu">
                 <a href="#" class="menu-item active" data-view="vista-facturas"><i class='bx bxs-file-blank'></i> Facturas</a>
+                <a href="#" class="menu-item" data-view="vista-facturas-mensuales"><i class='bx bxs-calendar'></i> Facturas Mensuales</a>
+                
                 <a href="#" class="menu-item" data-view="vista-clientes"><i class='bx bxs-user-detail'></i> Clientes</a>
                 <a href="#" class="menu-item" data-view="vista-guia-app"><i class='bx bx-devices'></i> Convertir en App</a>
             </nav>
@@ -53,11 +58,9 @@
         </aside>
 
         <main class="content">
-            <!-- VISTA LISTADO DE FACTURAS -->
             <div id="vista-facturas" class="view active">
                 <div class="view-header">
                     <h1>Mis Facturas</h1>
-                    <!-- Botón de hamburguesa para móvil -->
                     <button id="hamburger-btn" class="hamburger-btn"><i class='bx bx-menu'></i></button>
                     <button id="btn-nueva-factura" class="btn"><i class='bx bx-plus'></i> Crear Nueva Factura</button>
                 </div>
@@ -70,7 +73,6 @@
                                     <th>Cliente</th>
                                     <th>Fecha</th>
                                     <th>Total</th>
-                                    <th>Estado</th>
                                     <th>Acciones</th>
                                 </tr>
                             </thead>
@@ -80,7 +82,29 @@
                 </div>
             </div>
 
-            <!-- VISTA GESTIÓN DE CLIENTES -->
+            <div id="vista-facturas-mensuales" class="view">
+                <div class="view-header">
+                    <h1>Facturas Mensuales</h1>
+                    <button id="btn-nueva-factura-mensual" class="btn"><i class='bx bx-plus'></i> Crear Factura Mensual</button>
+                </div>
+                <div class="panel">
+                    <div class="table-wrapper">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nº Factura</th>
+                                    <th>Cliente</th>
+                                    <th>Fecha</th>
+                                    <th>Total</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-facturas-mensuales-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
             <div id="vista-clientes" class="view">
                 <div class="view-header"><h1>Mis Clientes</h1></div>
                 <div class="clientes-layout">
@@ -90,7 +114,6 @@
                             <input type="hidden" id="cliente-id">
                             <div class="form-group"><label>Nombre Completo / Empresa:</label><input type="text" id="cliente-nombre" required></div>
                             <div class="form-group"><label>NIF/CIF:</label><input type="text" id="cliente-nif"></div>
-                            <div class="form-group"><label>Email:</label><input type="email" id="cliente-email"></div>
                             <div class="form-group"><label>Dirección:</label><textarea id="cliente-direccion" rows="2"></textarea></div>
                             <div class="acciones-formulario">
                                 <button type="submit" class="btn"><i class='bx bx-save'></i> Guardar Cliente</button>
@@ -110,52 +133,152 @@
                 </div>
             </div>
 
-            <!-- VISTA CREAR/EDITAR FACTURA -->
             <div id="vista-crear-factura" class="view">
                 <div class="view-header"><h1 id="formulario-factura-titulo">Crear Nueva Factura</h1></div>
-                 <div class="panel">
-                    <form id="form-factura">
-                        <input type="hidden" id="factura-id">
-                        <div class="form-grid">
+                    <div class="panel">
+                        <form id="form-factura">
+                            <input type="hidden" id="factura-id">
+                            
+                            <h3>Datos de la Factura</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label>Nº Factura:</label>
+                                    <input type="text" id="factura-numero" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Fecha:</label>
+                                    <input type="date" id="factura-fecha" required>
+                                </div>
+                            </div>
+                            <hr>
+                    
+                            <h3>Datos del Cliente</h3>
                             <div class="form-group">
-                                <label for="factura-selector-cliente">Seleccionar Cliente</label>
-                                <select id="factura-selector-cliente" required></select>
+                                <label for="factura-selector-cliente">Seleccionar Cliente Existente (Opcional)</label>
+                                <select id="factura-selector-cliente">
+                                    <option value="">-- Cargar datos de un cliente --</option>
+                                </select>
+                            </div>
+
+                            <div class="form-grid">
+                                <div class="form-group" style="grid-column: 1 / 3;">
+                                    <label>Nombre del Cliente:</label>
+                                    <input type="text" id="factura-cliente-nombre" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>DNI/NIF:</label>
+                                    <input type="text" id="factura-cliente-nif">
+                                </div>
                             </div>
                             <div class="form-group">
+                                <label>Dirección del Cliente:</label>
+                                <textarea id="factura-cliente-direccion" rows="2"></textarea>
+                            </div>
+                            <hr>
+                    
+                            <h3>Conceptos</h3>
+                            <div class="table-wrapper">
+                                <table class="data-table">
+                                    <thead><tr><th>CONCEPTO</th><th>HORAS</th><th>PRECIO (H)</th><th>TOTAL (€)</th><th></th></tr></thead>
+                                    <tbody id="cuerpo-tabla-items"></tbody>
+                                </table>
+                            </div>
+                            <button type="button" id="btn-anadir-linea" class="btn btn-secundario" style="width: auto; padding: 8px 15px; margin-top:10px;"><i class='bx bx-plus'></i> Añadir Concepto</button>
+                            
+                            <div class="resumen-factura">
+                                <div id="subtotal">Subtotal: 0.00 €</div>
+                                <div id="iva">IVA (21%): 0.00 €</div>
+                                <div id="total-final">TOTAL: 0.00 €</div>
+                            </div>
+                            <hr>
+                    
+                            <h3>Detalles Finales</h3>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="factura-forma-pago">Forma de Pago</label>
+                                    <select id="factura-forma-pago">
+                                        <option value="Transferencia">Transferencia</option>
+                                        <option value="Efectivo">Efectivo</option>
+                                        <option value="Bizum">Bizum</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="grid-column: 2 / 4;">
+                                    <label>Observaciones</label>
+                                    <textarea id="factura-observaciones" rows="2"></textarea>
+                                </div>
+                            </div>
+                    
+                            <div class="acciones-formulario">
+                                <button type="submit" class="btn"><i class='bx bx-save'></i> Guardar Factura</button>
+                                <button type="button" id="btn-cancelar-factura" class="btn btn-secundario">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+            </div>
+
+            <div id="vista-crear-factura-mensual" class="view">
+                <div class="view-header"><h1 id="formulario-factura-mensual-titulo">Crear Factura Mensual</h1></div>
+                <div class="panel">
+                    <form id="form-factura-mensual">
+                        <input type="hidden" id="factura-mensual-id">
+                        
+                        <h3>Datos de la Factura</h3>
+                        <div class="form-grid">
+                            <div class="form-group">
                                 <label>Nº Factura:</label>
-                                <input type="text" id="factura-numero" required>
+                                <input type="text" id="factura-mensual-numero" required>
                             </div>
                             <div class="form-group">
                                 <label>Fecha:</label>
-                                <input type="date" id="factura-fecha" required>
+                                <input type="date" id="factura-mensual-fecha" required>
                             </div>
                         </div>
                         <hr>
-                        <h3>Conceptos</h3>
-                        <div class="table-wrapper">
-                            <table class="data-table">
-                                <thead><tr><th>Descripción</th><th>Cantidad</th><th>Precio (€)</th><th>Total</th><th></th></tr></thead>
-                                <tbody id="cuerpo-tabla-items"></tbody>
-                            </table>
-                        </div>
-                        <button type="button" id="btn-anadir-linea" class="btn btn-secundario" style="width: auto; padding: 8px 15px; margin-top:10px;"><i class='bx bx-plus'></i> Añadir Concepto</button>
-                        
-                        <div class="resumen-factura">
-                            <div id="subtotal">Subtotal: 0.00 €</div>
-                            <div id="iva">IVA (21%): 0.00 €</div>
-                            <div id="total-final">TOTAL: 0.00 €</div>
+                
+                        <h3>Datos del Cliente</h3>
+                        <div class="form-group">
+                            <label for="factura-mensual-selector-cliente">Seleccionar Cliente Existente</label>
+                            <select id="factura-mensual-selector-cliente">
+                                <option value="">-- Cargar datos de un cliente --</option>
+                            </select>
                         </div>
 
+                        <div class="form-grid">
+                            <div class="form-group" style="grid-column: 1 / 3;">
+                                <label>Nombre del Cliente:</label>
+                                <input type="text" id="factura-mensual-cliente-nombre" required>
+                            </div>
+                            <div class="form-group">
+                                <label>DNI/NIF:</label>
+                                <input type="text" id="factura-mensual-cliente-nif">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Dirección del Cliente:</label>
+                            <textarea id="factura-mensual-cliente-direccion" rows="2"></textarea>
+                        </div>
                         <hr>
+                
+                        <h3>Grupos de Servicios</h3>
+                        <div id="grupos-de-servicios-container">
+                            </div>
+                        <button type="button" id="btn-anadir-grupo" class="btn btn-secundario" style="width: auto; padding: 8px 15px; margin-top:10px;"><i class='bx bx-plus'></i> Añadir Grupo de Servicios</button>
+                        
+                        <div class="resumen-factura">
+                            <div id="subtotal-mensual">Subtotal: 0.00 €</div>
+                            <div id="iva-mensual">IVA (21%): 0.00 €</div>
+                            <div id="total-final-mensual">TOTAL: 0.00 €</div>
+                        </div>
+                        <hr>
+
                         <div class="acciones-formulario">
-                            <button type="submit" class="btn"><i class='bx bx-save'></i> Guardar Factura</button>
-                            <button type="button" id="btn-cancelar-factura" class="btn btn-secundario">Cancelar</button>
+                            <button type="submit" class="btn"><i class='bx bx-save'></i> Guardar Factura Mensual</button>
+                            <button type="button" id="btn-cancelar-factura-mensual" class="btn btn-secundario">Cancelar</button>
                         </div>
                     </form>
                 </div>
             </div>
 
-            <!-- VISTA GUÍA PARA INSTALAR APP -->
             <div id="vista-guia-app" class="view">
                 <div class="view-header"><h1>Instalar como Aplicación</h1></div>
                 <div class="panel">
@@ -177,7 +300,6 @@
                                 <li>Toca el botón de <strong>Menú</strong> (⋮) o de <strong>Compartir</strong> (↑).</li>
                                 <li>Busca y selecciona la opción <strong>"Instalar aplicación"</strong> o <strong>"Añadir a pantalla de inicio"</strong>.</li>
                             </ol>
-                             
                         </div>
                     </div>
                 </div>
@@ -185,7 +307,6 @@
         </main>
     </div>
 
-    <!-- MODAL PARA PREVISUALIZACIÓN DE PDF -->
     <div id="pdf-preview-modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -202,7 +323,6 @@
         </div>
     </div>
     
-    <!-- Overlay para el menú en móvil -->
     <div id="overlay"></div>
     
     <img id="logo-para-pdf" src="Fotos/logo.jpg" style="display: none;" alt="Logo para PDF">
@@ -211,9 +331,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    
+    <script src="https://unpkg.com/jspdf-autotable@3.5.23/dist/jspdf.plugin.autotable.js"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     
     <script src="script.js"></script>
 </body>
 </html>
-

@@ -154,9 +154,6 @@ h1 { font-size: 2rem; margin: 0; }
 .data-table th, .data-table td { padding: 15px; text-align: left; border-bottom: 1px solid var(--color-borde); vertical-align: middle; white-space: nowrap; }
 .data-table th { font-family: var(--fuente-titulos); font-weight: 600; color: var(--color-texto-secundario); }
 .data-table tbody tr:hover { background-color: var(--color-fondo); }
-.status { padding: 5px 12px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: capitalize; }
-.status.pendiente { background-color: #ffeeba; color: #856404; }
-.status.pagado { background-color: #d4edda; color: #155724; }
 .form-group { margin-bottom: 20px; }
 .form-group label { display: block; margin-bottom: 8px; font-weight: 600; font-size: 0.95rem; }
 .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 12px 15px; border: 1px solid var(--color-borde); border-radius: 8px; font-size: 1rem; transition: border-color 0.3s, box-shadow 0.3s; }
@@ -302,3 +299,93 @@ hr { border: none; border-top: 1px solid var(--color-borde); margin: 30px 0; }
     }
 }
 
+
+
+
+/* --- Estilos para el ojo de la contraseña --- */
+.password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-wrapper input {
+    /* Añade espacio a la derecha para que el texto no se monte sobre el icono */
+    padding-right: 45px;
+}
+
+.password-wrapper i {
+    position: absolute;
+    right: 15px;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--color-texto-secundario);
+    transition: color 0.2s ease;
+}
+
+.password-wrapper i:hover {
+    color: var(--color-primario);
+}
+
+
+
+
+/* --- Mensajes de éxito y enlace de contraseña olvidada --- */
+.success-mensaje {
+    color: #155724; /* Verde oscuro */
+    background-color: #d4edda; /* Fondo verde claro */
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 15px;
+    display: none; /* Oculto por defecto */
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 20px;
+    color: var(--color-texto-secundario);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+}
+
+.forgot-password:hover {
+    color: var(--color-primario);
+    text-decoration: underline;
+}
+
+/* --- ESTILOS ADICIONALES PARA FACTURAS MENSUALES --- */
+.grupo-servicio {
+    background-color: #fdfdfd;
+    border: 1px solid var(--color-borde);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 25px;
+}
+
+.grupo-servicio-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.grupo-servicio-header .form-group {
+    flex-grow: 1;
+    margin-bottom: 0;
+}
+
+.grupo-servicio-header label {
+    font-size: 1rem;
+    color: var(--color-primario);
+}
+
+.grupo-servicio-acciones button {
+    width: auto;
+    padding: 8px 12px;
+}
+
+.grupo-servicio-tipo {
+    margin-bottom: 20px;
+}

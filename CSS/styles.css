@@ -615,6 +615,150 @@ a, button {
     font-size: 0.95rem;
 }
 
+/* --- TARJETAS DE EXPERIENCIA DETALLADAS (ACORDEÓN) --- */
+.experience-card-detailed {
+    display: block;
+    text-align: left;
+}
+
+.experience-card-header {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.experience-details .experience-company {
+    color: var(--secondary-color);
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.experience-details .experience-location {
+    color: var(--text-dark);
+    font-size: 0.85rem;
+    margin-top: 4px;
+}
+
+.experience-details .experience-location i,
+.experience-details .experience-date i {
+    color: var(--primary-color);
+    margin-right: 6px;
+}
+
+/* El desplegable */
+.experience-expand {
+    margin-top: 20px;
+    border-top: 1px solid rgba(93, 173, 226, 0.15);
+    padding-top: 0;
+}
+
+.experience-expand summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 0 5px 0;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.experience-expand summary::-webkit-details-marker {
+    display: none;
+}
+
+.experience-expand summary:hover {
+    color: var(--secondary-color);
+}
+
+.experience-expand summary i {
+    transition: transform 0.35s cubic-bezier(0.5, 0, 0, 1);
+}
+
+.experience-expand[open] summary i {
+    transform: rotate(180deg);
+}
+
+.experience-categories {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding: 15px 0 10px 0;
+    animation: expand-fade 0.5s ease;
+}
+
+@keyframes expand-fade {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.exp-category {
+    background: rgba(93, 173, 226, 0.06);
+    border: 1px solid rgba(93, 173, 226, 0.15);
+    border-radius: 8px;
+    padding: 18px 20px;
+}
+
+.exp-category h4 {
+    color: var(--text-color);
+    font-size: 1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 1.3;
+}
+
+.exp-category h4 i {
+    color: var(--primary-color);
+    font-size: 1.1rem;
+    flex-shrink: 0;
+}
+
+.exp-category ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.exp-category ul li {
+    color: var(--text-dark);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    padding-left: 18px;
+    position: relative;
+}
+
+.exp-category ul li::before {
+    content: '\f0da';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    color: var(--primary-color);
+    position: absolute;
+    left: 0;
+    top: 1px;
+    font-size: 0.75rem;
+}
+
+.exp-category ul li strong {
+    color: var(--text-color);
+}
+
+@media (max-width: 768px) {
+    .experience-card-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    .experience-categories {
+        grid-template-columns: 1fr;
+    }
+}
+
 /* Estilos de la Cuadrícula de Certificados */
 .certs-grid {
     display: grid;

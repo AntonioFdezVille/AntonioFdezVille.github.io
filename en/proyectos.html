@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio - Antonio Fernández Villegas</title>
+    <link rel="stylesheet" href="../CSS/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="../Fotos/Logo.ico">
+</head>
+<body>
+
+    <div id="particles-js"></div>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+    <div id="progress-bar"></div>
+
+    <header class="header">
+        <nav class="navbar">
+            <a href="index.html" class="nav-logo">Antonio's Portfolio</a>
+            <div class="navbar-right">
+                <ul class="nav-menu">
+                    <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
+                    <li class="nav-item"><a href="proyectos.html" class="nav-link">Projects</a></li>
+                    <li class="nav-item"><a href="contacto.html" class="nav-link">Contact</a></li>
+                </ul>
+                <div class="lang-switcher">
+                    <a href="../proyectos.html" class="lang-btn" aria-label="Español" title="Español">🇪🇸</a>
+                    <a href="proyectos.html" class="lang-btn active" aria-label="English" title="English">🇬🇧</a>
+                </div>
+                <div class="hamburger"><span class="bar"></span><span class="bar"></span><span class="bar"></span></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="proyectos" class="section">
+            <h2 class="section-title reveal-up">Upcoming Projects</h2>
+            
+
+            <div class="projects-grid">
+                <div class="project-card" data-category="web">
+                    <a href="../Proyectos/Hamburgueseria/index.html" target="_blank">
+                        <div class="project-image">
+                            <img src="../Fotos/hamburgueseria.png" alt="Website design for a burger restaurant">
+                            <div class="project-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Burger Restaurant Website</h3>
+                            <span>HTML / CSS / JavaScript</span>
+                        </div>
+                    </a>
+                </div>
+                <div class="project-card" data-category="web">
+                     <a href="../Proyectos/Almacen/index.html" target="_blank">
+                        <div class="project-image">
+                            <img src="../Fotos/almacen.png" alt="Website design for a fruit and vegetable warehouse">
+                            <div class="project-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <h3>Produce Warehouse Website</h3>
+                            <span>HTML / CSS / JavaScript</span>
+                        </div>
+                    </a>
+                </div>
+                <!-- TODO: Replace the image (../Fotos/rag-ia.png) and the link (href="#") for this project -->
+                <div class="project-card" data-category="ia">
+                     <a href="#" target="_blank">
+                        <div class="project-image">
+                            <img src="../Fotos/rag-ia.png" alt="AI RAG">
+                            <div class="project-overlay"></div>
+                        </div>
+                        <div class="project-info">
+                            <h3>AI RAG</h3>
+                            <span>Python / LLMs / RAG</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Designed and developed by Antonio Fernández Villegas &copy; 2026</p>
+    </footer>
+    
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.9.3/tsparticles.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.0/vanilla-tilt.min.js"></script>
+    
+    <script src="../JS/script.js"></script>
+</body>
+
+</html>

@@ -174,6 +174,45 @@ a, button {
     }
 }
 
+/* --- SELECTOR DE IDIOMA --- */
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+}
+.lang-switcher {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.lang-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 6px 8px;
+    border-radius: 8px;
+    opacity: 0.45;
+    filter: grayscale(70%);
+    transition: var(--transition-speed);
+}
+.lang-btn:hover {
+    opacity: 0.85;
+    filter: grayscale(20%);
+    transform: translateY(-2px);
+}
+.lang-btn.active {
+    opacity: 1;
+    filter: grayscale(0%);
+    background-color: rgba(93, 173, 226, 0.15);
+    box-shadow: 0 0 0 1px rgba(93, 173, 226, 0.4) inset;
+}
+@media (max-width: 768px) {
+    .navbar-right { gap: 14px; }
+    .lang-btn { font-size: 1.1rem; padding: 4px 6px; }
+}
+
 /* --- SECCIÓN INICIO --- */
 .hero {
     min-height: 100vh;
@@ -275,6 +314,12 @@ a, button {
 }
 .project-card:hover .project-image img {
     transform: scale(1.1);
+}
+.project-image img.logo-fit {
+    object-fit: contain;
+    padding: 20px;
+    background-color: #0A2536;
+    box-sizing: border-box;
 }
 .project-overlay {
     position: absolute;
